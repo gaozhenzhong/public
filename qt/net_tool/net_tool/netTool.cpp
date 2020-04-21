@@ -10,5 +10,6 @@ netTool::netTool(QWidget *parent) :
 
 netTool::~netTool()
 {
+
     delete ui;
 }
