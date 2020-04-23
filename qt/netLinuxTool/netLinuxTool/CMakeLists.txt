@@ -39,6 +39,8 @@ if(ANDROID)
     netLinuxTool.cpp
     netLinuxTool.h
     netLinuxTool.ui
+    MuduoTest.cpp
+    MuduoTest.h
   )
 else()
   add_executable(netLinuxTool
@@ -46,6 +48,8 @@ else()
     netLinuxTool.cpp
     netLinuxTool.h
     netLinuxTool.ui
+    MuduoTest.cpp
+    MuduoTest.h
   )
 endif()
 

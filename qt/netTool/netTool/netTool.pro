@@ -17,6 +17,7 @@ INCLUDEPATH += /home/code/boost_1_72_0
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    MuduoTest.cpp \
     main.cpp \
     muduo/base/AsyncLogging.cc \
     muduo/base/Condition.cc \
@@ -36,6 +37,7 @@ SOURCES += \
     netTool.cpp
 
 HEADERS += \
+    MuduoTest.h \
     muduo/base/AsyncLogging.h \
     muduo/base/Atomic.h \
     muduo/base/BlockingQueue.h \
