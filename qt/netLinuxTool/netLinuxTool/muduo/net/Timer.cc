@@ -5,11 +5,22 @@
 // that can be found in the License file.
 
 // Author: Shuo Chen (chenshuo at chenshuo dot com)
-//
-#if 0
-#include "muduo/net/BoilerPlate.h"
+
+#include "muduo/net/Timer.h"
 
 using namespace muduo;
 using namespace muduo::net;
 
-#endif
+AtomicInt64 Timer::s_numCreated_;
+
+void Timer::restart(Timestamp now)
+{
+  if (repeat_)
+  {
+    expiration_ = addTime(now, interval_);
+  }
+  else
+  {
+    expiration_ = Timestamp::invalid();
+  }
+}

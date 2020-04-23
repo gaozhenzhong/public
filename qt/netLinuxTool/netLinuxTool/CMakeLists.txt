@@ -11,9 +11,13 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+
 # QtCreator supports the following variables for Android, which are identical to qmake Android variables.
 # Check http://doc.qt.io/qt-5/deployment-android.html for more information.
 # They need to be set before the find_package(Qt5 ...) call.
+INCLUDE_DIRECTORIES( ${PROJECT_SOURCE_DIR}/)
+#boost库
+INCLUDE_DIRECTORIES(/home/code/boost_1_72_0/)
 
 #if(ANDROID)
 #    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
@@ -25,6 +29,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #endif()
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
+
+ADD_SUBDIRECTORY(muduo/base)
+ADD_SUBDIRECTORY(muduo/net)
 
 if(ANDROID)
   add_library(netLinuxTool SHARED
