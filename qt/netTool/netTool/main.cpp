@@ -5,7 +5,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MuduoTest muduo;
+    //MuduoTest muduo;
     netTool w;
     w.show();
     return a.exec();
