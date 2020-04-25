@@ -30,7 +30,7 @@
       <x>280</x>
       <y>90</y>
       <width>501</width>
-      <height>201</height>
+      <height>181</height>
      </rect>
     </property>
    </widget>
@@ -51,9 +51,9 @@
     <property name="geometry">
      <rect>
       <x>280</x>
-      <y>300</y>
+      <y>310</y>
       <width>501</width>
-      <height>201</height>
+      <height>191</height>
      </rect>
     </property>
    </widget>
@@ -104,6 +104,19 @@
     </property>
     <property name="text">
      <string>Hex</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="cleanScreenButton">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>280</y>
+      <width>89</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>clearScreen</string>
     </property>
    </widget>
   </widget>

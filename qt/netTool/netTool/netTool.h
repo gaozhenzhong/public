@@ -2,6 +2,9 @@
 #define NETTOOL_H
 
 #include <QMainWindow>
+#include<QStandardItemModel>
+
+#define ENABLE_TREE_VIEW
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class netTool; }
@@ -20,5 +23,12 @@ private:
     QString conURL;
 private:
     Ui::netTool *ui;
+    QStandardItemModel* model;
+    QStandardItem *getItem(QStandardItemModel *model, QString s);
+    QStandardItem *getItem(QStandardItem *item, QString s);
+    void CDevtreeViewInit(void);
+#ifdef ENABLE_TREE_VIEW
+    void CDevtreeViewTest(void);
+#endif
 };
 #endif // NETTOOL_H
