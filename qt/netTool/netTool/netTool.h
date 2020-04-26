@@ -4,7 +4,8 @@
 #include <QMainWindow>
 #include<QStandardItemModel>
 
-#define ENABLE_TREE_VIEW
+#include <iostream>
+//#define ENABLE_TREE_VIEW
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class netTool; }
@@ -19,11 +20,11 @@ public:
     ~netTool();
 private slots:
     void on_conButton_clicked();
-private:
-    QString conURL;
+
 private:
     Ui::netTool *ui;
-    QStandardItemModel* model;
+   // QStandardItemModel* model;
+    std::unique_ptr<QStandardItemModel>  model;
     QStandardItem *getItem(QStandardItemModel *model, QString s);
     QStandardItem *getItem(QStandardItem *item, QString s);
     void CDevtreeViewInit(void);

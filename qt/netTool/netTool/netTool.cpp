@@ -5,6 +5,18 @@
 #include<QDebug>
 #include<iostream>
 #include<QStandardItemModel>
+//todo：：参数合法性
+//todo:: 已将链接设备的存储方式，优先使用RTII方式管理，查重
+//todo::链接和软件左侧树的联动
+//todo::不同实现方式的性能对比：qt，自己、mudo等
+enum creatConnType
+{
+    TCP_SERVER,
+    TCP_CLINET,
+    UDP_SERVER,
+    UDP_CLINET,
+    creatConnType_Max,
+};
 
 netTool::netTool(QWidget *parent)
     : QMainWindow(parent)
@@ -16,7 +28,6 @@ netTool::netTool(QWidget *parent)
 #else
     CDevtreeViewInit();
 #endif
-
 }
 
 netTool::~netTool()
@@ -24,15 +35,19 @@ netTool::~netTool()
     delete ui;
 }
 
-
 void netTool::on_conButton_clicked()
 {
-    conURL = ui->connIfoEdit->text();
+    QString ip = ui->IPEdit->text();
+    QString port = ui->PortEdit->text();
+    enum creatConnType connType = creatConnType(ui->connTypeComboBox->currentIndex());
     //LOG_INFO<<conURL.toStdString();   //nead file.pro add CONFIG += console
-    //qDebug()<<conURL;
-    //ui->recBrowser->insertPlainText(conURL);
-    ui->recBrowser->append(conURL);
+    qDebug()<<connType<<ip<<port;
+
+
+#if 0
+    ui->recBrowser->append(ip);
     ui->recBrowser->moveCursor(QTextCursor::End);
+#endif
 }
 
 QStandardItem *netTool::getItem(QStandardItemModel *model, QString s)
@@ -77,10 +92,18 @@ QStandardItem *netTool::getItem(QStandardItem *item, QString s)
 void netTool::CDevtreeViewInit()
 {
     //treeview初始化
-    model = new QStandardItemModel(ui->CDevtreeView);//创建模型
-    ui->CDevtreeView->setModel(model);//导入模型
-    model->setHorizontalHeaderLabels(QStringList()<<QStringLiteral("设备名")<<QStringLiteral("信息1")<<QStringLiteral("信息2"));
+ #if 1
+    std::unique_ptr<QStandardItemModel>  initModel(new QStandardItemModel(ui->CDevtreeView));
+    model = std::move(initModel);//创建模型
+#else
+    model = std::move(std::unique_ptr<QStandardItemModel> (new QStandardItemModel(ui->CDevtreeView)));//创建模型
+#endif
+    ui->CDevtreeView->setModel(model.get());//导入模型
+    model->setHorizontalHeaderLabels(QStringList()<<QStringLiteral("地址")<<QStringLiteral("状态"));
+    model->setItem(0,0,new QStandardItem(tr("服务端")));//0,0坐标值
+    model->setItem(1,0,new QStandardItem(tr("客户端")));
 }
+#ifdef ENABLE_TREE_VIEW
 void netTool::CDevtreeViewTest()
 {
 //https://blog.csdn.net/fangjiaze444/article/details/81569881
@@ -107,3 +130,4 @@ void netTool::CDevtreeViewTest()
     QStandardItem * getitem = getItem(model,tr("item four"));
     getitem->parent()->setChild(getitem->row(),1,new QStandardItem(tr("item four msg")));
 }
+#endif

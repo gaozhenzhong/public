@@ -28,9 +28,9 @@
     <property name="geometry">
      <rect>
       <x>280</x>
-      <y>90</y>
+      <y>120</y>
       <width>501</width>
-      <height>181</height>
+      <height>171</height>
      </rect>
     </property>
    </widget>
@@ -38,7 +38,7 @@
     <property name="geometry">
      <rect>
       <x>290</x>
-      <y>60</y>
+      <y>90</y>
       <width>481</width>
       <height>17</height>
      </rect>
@@ -51,9 +51,9 @@
     <property name="geometry">
      <rect>
       <x>280</x>
-      <y>310</y>
+      <y>330</y>
       <width>501</width>
-      <height>191</height>
+      <height>171</height>
      </rect>
     </property>
    </widget>
@@ -70,12 +70,12 @@
      <string>Send</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="connIfoEdit">
+   <widget class="QLineEdit" name="IPEdit">
     <property name="geometry">
      <rect>
-      <x>290</x>
+      <x>440</x>
       <y>20</y>
-      <width>391</width>
+      <width>151</width>
       <height>25</height>
      </rect>
     </property>
@@ -83,9 +83,9 @@
    <widget class="QPushButton" name="conButton">
     <property name="geometry">
      <rect>
-      <x>700</x>
-      <y>20</y>
-      <width>89</width>
+      <x>670</x>
+      <y>50</y>
+      <width>81</width>
       <height>25</height>
      </rect>
     </property>
@@ -110,13 +110,79 @@
     <property name="geometry">
      <rect>
       <x>680</x>
-      <y>280</y>
+      <y>300</y>
       <width>89</width>
       <height>25</height>
      </rect>
     </property>
     <property name="text">
      <string>clearScreen</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelIP">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>20</y>
+      <width>16</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>IP</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="connTypeComboBox">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>20</y>
+      <width>101</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>TCPServer</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>TCPClient</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>UDPServer</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>UDPClient</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLineEdit" name="PortEdit">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>20</y>
+      <width>81</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelPort">
+    <property name="geometry">
+     <rect>
+      <x>620</x>
+      <y>20</y>
+      <width>51</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PORT</string>
     </property>
    </widget>
   </widget>
