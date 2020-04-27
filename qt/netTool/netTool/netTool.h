@@ -20,7 +20,7 @@ public:
     ~netTool();
 private slots:
     void on_conButton_clicked();
-
+    void on_CDevtreeView_clicked();
 private:
     Ui::netTool *ui;
    // QStandardItemModel* model;

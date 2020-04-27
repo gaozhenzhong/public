@@ -89,7 +89,7 @@ void netTool::on_conButton_clicked()
     bool _isAddr = isCurrectIP(ba.data());
     if(_isAddr != true)
     {
-        ui->logBrowser->append(ip+"is no ip");
+        ui->recBrowser->append(ip+"is no ip");
         return;
     }
     QString port = ui->PortEdit->text();
@@ -97,10 +97,10 @@ void netTool::on_conButton_clicked()
     qDebug()<<connType<<ip<<port;
     if(connType>= creatConnType_Max)
     {
-        ui->logBrowser->append("ConnType error");
+        ui->recBrowser->append("ConnType error");
         return;
     }
-    ui->logBrowser->append("connet:"+ip+port);
+    ui->recBrowser->append("connet:"+ip+port);
 #if 0
     ui->recBrowser->append(ip);
     ui->recBrowser->moveCursor(QTextCursor::End);
@@ -157,8 +157,10 @@ void netTool::CDevtreeViewInit()
 #endif
     ui->CDevtreeView->setModel(model.get());//导入模型
     model->setHorizontalHeaderLabels(QStringList()<<QStringLiteral("地址")<<QStringLiteral("状态"));
-    model->setItem(0,0,new QStandardItem(tr("服务端")));//0,0坐标值
-    model->setItem(1,0,new QStandardItem(tr("客户端")));
+    model->setItem(0,0,new QStandardItem(tr("TCP服务端")));//0,0坐标值
+    model->setItem(1,0,new QStandardItem(tr("TCP客户端")));//0,0坐标值
+    model->setItem(2,0,new QStandardItem(tr("UDP服务端")));//0,0坐标值
+    model->setItem(3,0,new QStandardItem(tr("UDP客户端")));//0,0坐标值
 }
 #ifdef ENABLE_TREE_VIEW
 void netTool::CDevtreeViewTest()
@@ -188,3 +190,11 @@ void netTool::CDevtreeViewTest()
     getitem->parent()->setChild(getitem->row(),1,new QStandardItem(tr("item four msg")));
 }
 #endif
+void netTool::on_CDevtreeView_clicked()
+{
+    QString selectTreeBranch;
+    QModelIndex currentIndex = ui->CDevtreeView->currentIndex();
+    QStandardItem* currentItem = model->itemFromIndex(currentIndex);
+    selectTreeBranch += currentItem->text();
+    ui->CDevIfolabel->setText(selectTreeBranch);
+}
