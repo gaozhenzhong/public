@@ -10,14 +10,7 @@
 //todo:: 已将链接设备的存储方式，优先使用RTII方式管理，查重
 //todo::链接和软件左侧树的联动
 //todo::不同实现方式的性能对比：qt，自己、mudo等
-enum creatConnType
-{
-    TCP_SERVER,
-    TCP_CLINET,
-    UDP_SERVER,
-    UDP_CLINET,
-    creatConnType_Max,
-};
+
 
 bool isCurrectIP(const char *ip)
 {
@@ -82,6 +75,12 @@ netTool::~netTool()
     delete ui;
 }
 
+bool netTool::creatCon(enum creatConnType  _ConnType ,QString &_ip,QString &_port)
+{
+    bool bRes = false;
+    TcpServerList.emplace_back(new QTcpSocket);
+    return bRes;
+}
 void netTool::on_conButton_clicked()
 {
     QString ip   = ui->IPEdit->text();
@@ -101,6 +100,7 @@ void netTool::on_conButton_clicked()
         return;
     }
     ui->recBrowser->append("connet:"+ip+port);
+    bool  isSuc = creatCon(connType,ip,port);
 #if 0
     ui->recBrowser->append(ip);
     ui->recBrowser->moveCursor(QTextCursor::End);
@@ -190,6 +190,9 @@ void netTool::CDevtreeViewTest()
     getitem->parent()->setChild(getitem->row(),1,new QStandardItem(tr("item four msg")));
 }
 #endif
+/*
+ *treeView单击相应函数
+ */
 void netTool::on_CDevtreeView_clicked()
 {
     QString selectTreeBranch;
