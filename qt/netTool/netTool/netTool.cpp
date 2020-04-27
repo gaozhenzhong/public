@@ -5,6 +5,7 @@
 #include<QDebug>
 #include<iostream>
 #include<QStandardItemModel>
+#include<QHostAddress>
 //todo：：参数合法性
 //todo:: 已将链接设备的存储方式，优先使用RTII方式管理，查重
 //todo::链接和软件左侧树的联动
@@ -17,6 +18,52 @@ enum creatConnType
     UDP_CLINET,
     creatConnType_Max,
 };
+
+bool isCurrectIP(const char *ip)
+{
+    if (ip == NULL)
+    {
+        return false;
+    }
+    char temp[4];
+    int count = 0;
+    while (true)
+    {
+        int index = 0;
+        while (*ip != '\0' && *ip != '.' && count < 4)
+        {
+            temp[index++] = *ip;
+            ip++;
+        }
+        if (index >= 4)
+        {
+            return false;
+        }
+
+        temp[index] = '\0';
+        int num = atoi(temp);
+        if (!(num >= 0 && num <= 255))
+        {
+            return false;
+        }
+        count++;
+        if (*ip == '\0')
+        {
+            if (count == 4)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            ip++;
+        }
+    }
+}
 
 netTool::netTool(QWidget *parent)
     : QMainWindow(parent)
@@ -37,13 +84,23 @@ netTool::~netTool()
 
 void netTool::on_conButton_clicked()
 {
-    QString ip = ui->IPEdit->text();
+    QString ip   = ui->IPEdit->text();
+    QByteArray ba = ip.toLatin1(); //
+    bool _isAddr = isCurrectIP(ba.data());
+    if(_isAddr != true)
+    {
+        ui->logBrowser->append(ip+"is no ip");
+        return;
+    }
     QString port = ui->PortEdit->text();
     enum creatConnType connType = creatConnType(ui->connTypeComboBox->currentIndex());
-    //LOG_INFO<<conURL.toStdString();   //nead file.pro add CONFIG += console
     qDebug()<<connType<<ip<<port;
-
-
+    if(connType>= creatConnType_Max)
+    {
+        ui->logBrowser->append("ConnType error");
+        return;
+    }
+    ui->logBrowser->append("connet:"+ip+port);
 #if 0
     ui->recBrowser->append(ip);
     ui->recBrowser->moveCursor(QTextCursor::End);
