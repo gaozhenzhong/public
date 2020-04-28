@@ -5,6 +5,7 @@
 #include<QStandardItemModel>
 #include<QTcpSocket>
 #include<QUdpSocket>
+#include<QTcpServer>
 #include <iostream>
 //#define ENABLE_TREE_VIEW
 
@@ -40,7 +41,7 @@ private:
 std::vector<std::unique_ptr<int>> ptrsToInts;
 ptrsToInts.emplace_back(new int);
  */
-    std::list<std::unique_ptr<QTcpSocket>> TcpServerList;
+    std::list<std::unique_ptr<QTcpServer>> TcpServerList;
     std::list<std::unique_ptr<QTcpSocket>> TcpClinetList;
     std::list<std::unique_ptr<QUdpSocket>> UdpServerList;
     std::list<std::unique_ptr<QUdpSocket>> UdpClinetList;

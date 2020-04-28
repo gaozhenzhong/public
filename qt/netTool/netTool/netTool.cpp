@@ -78,7 +78,9 @@ netTool::~netTool()
 bool netTool::creatCon(enum creatConnType  _ConnType ,QString &_ip,QString &_port)
 {
     bool bRes = false;
-    TcpServerList.emplace_back(new QTcpSocket);
+    qDebug()<<_ConnType<<_ip<<_port;
+    TcpServerList.emplace_back(new QTcpServer);
+
     return bRes;
 }
 void netTool::on_conButton_clicked()
@@ -155,25 +157,42 @@ void netTool::CDevtreeViewInit()
 #else
     model = std::move(std::unique_ptr<QStandardItemModel> (new QStandardItemModel(ui->CDevtreeView)));//创建模型
 #endif
+//TableView->setUpdatesEnabled(false);  //暂停界面刷新
     ui->CDevtreeView->setModel(model.get());//导入模型
     model->setHorizontalHeaderLabels(QStringList()<<QStringLiteral("地址")<<QStringLiteral("状态"));
     model->setItem(0,0,new QStandardItem(tr("TCP服务端")));//0,0坐标值
+    model->setItem(0,1,new QStandardItem(tr("0")));//0,0坐标值
+        model->item(0)->appendRow(new QStandardItem(tr("10.100.8.18:99")));
+        model->item(0)->appendRow(new QStandardItem(tr("10.100.8.18:98")));
+    QString  testStr = "testdata";
+    model->item(0)->setData(testStr,0);//  树中存储数据
+    QVariant qVariant;
+    qVariant=model->item(0)->data (0) ;
+    //qDebug()<< qVariant.;
+    QString  readStr = qVariant.toString() ;
+    qDebug()<<readStr;
     model->setItem(1,0,new QStandardItem(tr("TCP客户端")));//0,0坐标值
-    model->setItem(2,0,new QStandardItem(tr("UDP服务端")));//0,0坐标值
-    model->setItem(3,0,new QStandardItem(tr("UDP客户端")));//0,0坐标值
+    model->setItem(1,1,new QStandardItem(tr("0")));//0,0坐标值
+    model->setItem(2,0,new QStandardItem(tr("UDP服务端")));
+    model->setItem(2,1,new QStandardItem(tr("0")));
+    model->setItem(3,0,new QStandardItem(tr("UDP客户端")));
+    model->setItem(3,1,new QStandardItem(tr("0")));
+//TableView->setUpdatesEnabled(true);  //恢复界面刷新
 }
 #ifdef ENABLE_TREE_VIEW
 void netTool::CDevtreeViewTest()
 {
 //https://blog.csdn.net/fangjiaze444/article/details/81569881
     //treeview初始化
-    model = new QStandardItemModel(ui->CDevtreeView);//创建模型
-    ui->CDevtreeView->setModel(model);//导入模型
+    std::unique_ptr<QStandardItemModel>  initModel(new QStandardItemModel(ui->CDevtreeView));
+    model = std::move(initModel);//创建模型
+    ui->CDevtreeView->setModel(model.get());//导入模型
     model->setHorizontalHeaderLabels(QStringList()<<QStringLiteral("设备名")<<QStringLiteral("信息1")<<QStringLiteral("信息2"));
     //创建题目
     model->setItem(0,0,new QStandardItem(tr("item two")));//0,0坐标值
         model->item(0)->appendRow(new QStandardItem(tr("item four")));
-    model->setItem(2,0,new QStandardItem(tr("item three")));
+//        model->item(0,1)->appendRow(new QStandardItem(tr("item 1222")));
+    model->setItem(1,0,new QStandardItem(tr("item three")));
     //通过名字添加子项
     QList<QStandardItem*> list = model->findItems(tr("item two"));
     for(int i = 0;i<list.length();i++)
@@ -186,7 +205,7 @@ void netTool::CDevtreeViewTest()
         参数3： 是创建一个对象,文本信息是item two msg*/
         model->setItem(item->row(),1,new QStandardItem(tr("item two msg")));
     }
-    QStandardItem * getitem = getItem(model,tr("item four"));
+    QStandardItem * getitem = getItem(model.get(),tr("item four"));
     getitem->parent()->setChild(getitem->row(),1,new QStandardItem(tr("item four msg")));
 }
 #endif
