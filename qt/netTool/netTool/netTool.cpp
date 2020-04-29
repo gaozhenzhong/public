@@ -6,57 +6,12 @@
 #include<iostream>
 #include<QStandardItemModel>
 #include<QHostAddress>
+#include"baseClass.h"
 //todo：：参数合法性
 //todo:: 已将链接设备的存储方式，优先使用RTII方式管理，查重
 //todo::链接和软件左侧树的联动
 //todo::不同实现方式的性能对比：qt，自己、mudo等
 
-
-bool isCurrectIP(const char *ip)
-{
-    if (ip == NULL)
-    {
-        return false;
-    }
-    char temp[4];
-    int count = 0;
-    while (true)
-    {
-        int index = 0;
-        while (*ip != '\0' && *ip != '.' && count < 4)
-        {
-            temp[index++] = *ip;
-            ip++;
-        }
-        if (index >= 4)
-        {
-            return false;
-        }
-
-        temp[index] = '\0';
-        int num = atoi(temp);
-        if (!(num >= 0 && num <= 255))
-        {
-            return false;
-        }
-        count++;
-        if (*ip == '\0')
-        {
-            if (count == 4)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else
-        {
-            ip++;
-        }
-    }
-}
 
 netTool::netTool(QWidget *parent)
     : QMainWindow(parent)
@@ -87,7 +42,7 @@ void netTool::on_conButton_clicked()
 {
     QString ip   = ui->IPEdit->text();
     QByteArray ba = ip.toLatin1(); //
-    bool _isAddr = isCurrectIP(ba.data());
+    bool _isAddr =nBaseClass::isCurrectIP(ba.data());
     if(_isAddr != true)
     {
         ui->recBrowser->append(ip+"is no ip");
@@ -148,6 +103,15 @@ QStandardItem *netTool::getItem(QStandardItem *item, QString s)
     }
     return getitem;
 }
+
+enum StandardItemtree
+{
+    TCP_SERVER_TREE_ID,
+    TCP_CLINET_TREE_ID,
+    UDP_SERVER_TREE_ID,
+    UDP_CLINET_TREE_ID,
+};
+
 void netTool::CDevtreeViewInit()
 {
     //treeview初始化
@@ -160,8 +124,16 @@ void netTool::CDevtreeViewInit()
 //TableView->setUpdatesEnabled(false);  //暂停界面刷新
     ui->CDevtreeView->setModel(model.get());//导入模型
     model->setHorizontalHeaderLabels(QStringList()<<QStringLiteral("地址")<<QStringLiteral("状态"));
-    model->setItem(0,0,new QStandardItem(tr("TCP服务端")));//0,0坐标值
-    model->setItem(0,1,new QStandardItem(tr("0")));//0,0坐标值
+    model->setItem(TCP_SERVER_TREE_ID,0,new QStandardItem(tr("TCP服务端")));//0,0坐标值
+    model->setItem(TCP_SERVER_TREE_ID,1,new QStandardItem(tr("0")));//0,0坐标值
+    model->setItem(TCP_CLINET_TREE_ID,0,new QStandardItem(tr("TCP客户端")));//0,0坐标值
+    model->setItem(TCP_CLINET_TREE_ID,1,new QStandardItem(tr("0")));//0,0坐标值
+    model->setItem(UDP_SERVER_TREE_ID,0,new QStandardItem(tr("UDP服务端")));
+    model->setItem(UDP_SERVER_TREE_ID,1,new QStandardItem(tr("0")));
+    model->setItem(UDP_CLINET_TREE_ID,0,new QStandardItem(tr("UDP客户端")));
+    model->setItem(UDP_CLINET_TREE_ID,1,new QStandardItem(tr("0")));
+
+#if 0  //test code
         model->item(0)->appendRow(new QStandardItem(tr("10.100.8.18:99")));
         model->item(0)->appendRow(new QStandardItem(tr("10.100.8.18:98")));
     QString  testStr = "testdata";
@@ -171,12 +143,15 @@ void netTool::CDevtreeViewInit()
     //qDebug()<< qVariant.;
     QString  readStr = qVariant.toString() ;
     qDebug()<<readStr;
-    model->setItem(1,0,new QStandardItem(tr("TCP客户端")));//0,0坐标值
-    model->setItem(1,1,new QStandardItem(tr("0")));//0,0坐标值
-    model->setItem(2,0,new QStandardItem(tr("UDP服务端")));
-    model->setItem(2,1,new QStandardItem(tr("0")));
-    model->setItem(3,0,new QStandardItem(tr("UDP客户端")));
-    model->setItem(3,1,new QStandardItem(tr("0")));
+    {
+        std::unique_ptr<QStandardItem> testItem( new QStandardItem(tr("10.100.8.18:99")) );
+        nBaseClass::BaseTestClass test("test1");
+        QTcpServer *tcpServer = new QTcpServer;
+        QVariant var=QVariant::fromValue((void*)tcpServer);
+        testItem->setData(var,0);
+        //testItem->setData();
+    }
+#endif
 //TableView->setUpdatesEnabled(true);  //恢复界面刷新
 }
 #ifdef ENABLE_TREE_VIEW

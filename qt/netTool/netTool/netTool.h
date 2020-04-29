@@ -17,7 +17,7 @@ QT_END_NAMESPACE
 
 class netTool : public QMainWindow
 {
-    Q_OBJECT
+Q_OBJECT
 
 public:
     netTool(QWidget *parent = nullptr);
@@ -40,7 +40,7 @@ private:
 /*
 std::vector<std::unique_ptr<int>> ptrsToInts;
 ptrsToInts.emplace_back(new int);
- */
+*/
     std::list<std::unique_ptr<QTcpServer>> TcpServerList;
     std::list<std::unique_ptr<QTcpSocket>> TcpClinetList;
     std::list<std::unique_ptr<QUdpSocket>> UdpServerList;

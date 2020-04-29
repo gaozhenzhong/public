@@ -20,6 +20,7 @@ INCLUDEPATH += /home/code/boost_1_72_0
 
 SOURCES += \
     MuduoTest.cpp \
+    baseClass.cpp \
     main.cpp \
     muduo/base/AsyncLogging.cc \
     muduo/base/Condition.cc \
@@ -40,6 +41,7 @@ SOURCES += \
 
 HEADERS += \
     MuduoTest.h \
+    baseClass.h \
     muduo/base/AsyncLogging.h \
     muduo/base/Atomic.h \
     muduo/base/BlockingQueue.h \
