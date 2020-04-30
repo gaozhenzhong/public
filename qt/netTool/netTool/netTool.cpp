@@ -52,10 +52,12 @@ bool netTool::creatTCPSerCon(QString &_ip,QString &_port)
     }
     QTcpServer *tcpServer = new QTcpServer(this);
     res = tcpServer->listen(QHostAddress::Any, port);
+    if(!res) return res;
     model->item(TCP_SERVER)->appendRow(new QStandardItem(_ip+_port));
     QVariant ItemVariant = QVariant::fromValue((void*)tcpServer);
-    model->item(TCP_SERVER)->setData(ItemVariant,0);//  树中存储数据
-    model->item(TCP_SERVER)->setData(TCP_SERVER,1);//  树中存储数据
+    model->item(TCP_SERVER)->setData(ItemVariant,101);//  树中存储数据
+    model->item(TCP_SERVER)->setData(TCP_SERVER,102);//  树中存储数据
+
     connect(tcpServer, &QTcpServer::newConnection,
        [=]()//信号无参数，这里也没有参数
        {
@@ -67,9 +69,10 @@ bool netTool::creatTCPSerCon(QString &_ip,QString &_port)
             QString temp = QString("%1:%2").arg(ip).arg(port);
             QStandardItem *StandardItem = new QStandardItem(temp);
             QVariant ItemVariant = QVariant::fromValue((void*)tcpSocket);
-            StandardItem->setData(ItemVariant,0);
-            StandardItem->setData(TCP_CLINET,1);
-            model->item(TCP_CLINET)->appendRow(new QStandardItem(temp));
+            StandardItem->setData(ItemVariant,101);
+            StandardItem->setData(TCP_CLINET,102);
+
+            model->item(TCP_CLINET)->appendRow(StandardItem);
             ui->recBrowser->append(temp+":connet success");
             //必须放在里面，因为建立好链接才能读，或者说tcpSocket有指向才能操作
             connect(tcpSocket, &QTcpSocket::readyRead,
@@ -259,9 +262,9 @@ void netTool::on_CDevtreeView_clicked()
     QStandardItem* currentItem = model->itemFromIndex(currentIndex);
     selectTreeBranch += currentItem->text();
     ui->CDevIfolabel->setText(selectTreeBranch);
-    treeActiveConnType = currentItem->data(1).toInt();
+    treeActiveConnType = currentItem->data(102).toInt();
     qDebug()<<treeActiveConnType;
-    activeSocket = currentItem->data(0).value<void*>();
+    activeSocket = currentItem->data(101).value<void*>();
 }
 void netTool::on_SendButton_clicked()
 {
