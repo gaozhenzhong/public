@@ -25,9 +25,9 @@ public:
 private slots:
     void on_conButton_clicked();
     void on_CDevtreeView_clicked();
+    void on_SendButton_clicked();
 private:
     Ui::netTool *ui;
-   // QStandardItemModel* model;
     std::unique_ptr<QStandardItemModel>  model;
     QStandardItem *getItem(QStandardItemModel *model, QString s);
     QStandardItem *getItem(QStandardItem *item, QString s);
@@ -41,18 +41,13 @@ private:
 std::vector<std::unique_ptr<int>> ptrsToInts;
 ptrsToInts.emplace_back(new int);
 */
-    std::list<std::unique_ptr<QTcpServer>> TcpServerList;
-    std::list<std::unique_ptr<QTcpSocket>> TcpClinetList;
-    std::list<std::unique_ptr<QUdpSocket>> UdpServerList;
-    std::list<std::unique_ptr<QUdpSocket>> UdpClinetList;
-    typedef enum creatConnType
-    {
-        TCP_SERVER,
-        TCP_CLINET,
-        UDP_SERVER,
-        UDP_CLINET,
-        creatConnType_Max,
-    }ecreatConnType;
-    bool creatCon(enum creatConnType  _ConnType ,QString &_ip,QString &_port);
+
+    bool creatTCPSerCon(QString &_ip,QString &_port);
+    bool creatTCPCltCon(QString &_ip,QString &_port);
+    bool creatUDPSerCon(QString &_ip,QString &_port);
+    bool creatUDPCltCon(QString &_ip,QString &_port);
+    std::function<bool (QString &_ip,QString &_port)>  netConFunc[4];
+    int treeActiveConnType;
+    void * activeSocket;
 };
 #endif // NETTOOL_H

@@ -11,35 +11,101 @@
 //todo:: 已将链接设备的存储方式，优先使用RTII方式管理，查重
 //todo::链接和软件左侧树的联动
 //todo::不同实现方式的性能对比：qt，自己、mudo等
-
+typedef enum creatConnType
+{
+    TCP_SERVER,
+    TCP_CLINET,
+    UDP_SERVER,
+    UDP_CLINET,
+    creatConnType_Max,
+}ecreatConnType;
 
 netTool::netTool(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::netTool)
 {
     ui->setupUi(this);
+    //表示绑定函数 fun 而fun 的第一，二个参数分别由调用 f2 的第一，二个参数指定
+    netConFunc[0] = std::bind(&netTool::creatTCPSerCon,this,std::placeholders::_1,std::placeholders::_2);
+    netConFunc[1] = std::bind(&netTool::creatTCPCltCon,this,std::placeholders::_1,std::placeholders::_2);
+    netConFunc[2] = std::bind(&netTool::creatUDPSerCon,this,std::placeholders::_1,std::placeholders::_2);
+    netConFunc[3] = std::bind(&netTool::creatUDPCltCon,this,std::placeholders::_1,std::placeholders::_2);
+
 #ifdef ENABLE_TREE_VIEW
     CDevtreeViewTest();
 #else
     CDevtreeViewInit();
 #endif
 }
-
 netTool::~netTool()
 {
     delete ui;
 }
-
-bool netTool::creatCon(enum creatConnType  _ConnType ,QString &_ip,QString &_port)
+bool netTool::creatTCPSerCon(QString &_ip,QString &_port)
 {
-    bool bRes = false;
-    qDebug()<<_ConnType<<_ip<<_port;
-    TcpServerList.emplace_back(new QTcpServer);
+    bool res = false;
+    bool ok;
+    int port = _port.toInt(&ok);
+    if(!ok)
+    {
+        qDebug()<<"port is no num\n";
+    }
+    QTcpServer *tcpServer = new QTcpServer(this);
+    res = tcpServer->listen(QHostAddress::Any, port);
+    model->item(TCP_SERVER)->appendRow(new QStandardItem(_ip+_port));
+    QVariant ItemVariant = QVariant::fromValue((void*)tcpServer);
+    model->item(TCP_SERVER)->setData(ItemVariant,0);//  树中存储数据
+    model->item(TCP_SERVER)->setData(TCP_SERVER,1);//  树中存储数据
+    connect(tcpServer, &QTcpServer::newConnection,
+       [=]()//信号无参数，这里也没有参数
+       {
+            //取出建立好连接的套接字
+            QTcpSocket  *tcpSocket = tcpServer->nextPendingConnection();
+            //获取对方的IP和端口
+            QString ip = tcpSocket->peerAddress().toString().split("::ffff:")[1];
+            quint16 port= tcpSocket->peerPort();
+            QString temp = QString("%1:%2").arg(ip).arg(port);
+            QStandardItem *StandardItem = new QStandardItem(temp);
+            QVariant ItemVariant = QVariant::fromValue((void*)tcpSocket);
+            StandardItem->setData(ItemVariant,0);
+            StandardItem->setData(TCP_CLINET,1);
+            model->item(TCP_CLINET)->appendRow(new QStandardItem(temp));
+            ui->recBrowser->append(temp+":connet success");
+            //必须放在里面，因为建立好链接才能读，或者说tcpSocket有指向才能操作
+            connect(tcpSocket, &QTcpSocket::readyRead,
+                [=]()
+                {
+                    //从通信套接字中取出内容
+                    QByteArray array = tcpSocket->readAll();
+                    ui->recBrowser->append(temp+":"+array);
 
-    return bRes;
+                }
+            );
+       }
+    );
+    return res;
+}
+bool netTool::creatTCPCltCon(QString &_ip,QString &_port)
+{
+    bool res = false;
+    qDebug()<<__FUNCTION__<<__LINE__<<"function achieve";
+    return res;
+}
+bool netTool::creatUDPSerCon(QString &_ip,QString &_port)
+{
+    bool res = false;
+    qDebug()<<__FUNCTION__<<__LINE__<<"function achieve";
+    return res;
+}
+bool netTool::creatUDPCltCon(QString &_ip,QString &_port)
+{
+    bool res = false;
+    qDebug()<<__FUNCTION__<<__LINE__<<"function achieve";
+    return res;
 }
 void netTool::on_conButton_clicked()
 {
+    bool res;
     QString ip   = ui->IPEdit->text();
     QByteArray ba = ip.toLatin1(); //
     bool _isAddr =nBaseClass::isCurrectIP(ba.data());
@@ -56,12 +122,42 @@ void netTool::on_conButton_clicked()
         ui->recBrowser->append("ConnType error");
         return;
     }
-    ui->recBrowser->append("connet:"+ip+port);
-    bool  isSuc = creatCon(connType,ip,port);
+    res = netConFunc[connType]( ip,port);
+    if(res)
+    {
+        ui->recBrowser->append(ip+port+":connet success");
+    }
+    else    //0为false
+    {
+        ui->recBrowser->append(ip+":"+port+":connet fail");
+    }
 #if 0
     ui->recBrowser->append(ip);
     ui->recBrowser->moveCursor(QTextCursor::End);
 #endif
+}
+
+void netTool::CDevtreeViewInit()
+{
+    //treeview初始化
+ #if 1
+    std::unique_ptr<QStandardItemModel>  initModel(new QStandardItemModel(ui->CDevtreeView));
+    model = std::move(initModel);//创建模型
+#else
+    model = std::move(std::unique_ptr<QStandardItemModel> (new QStandardItemModel(ui->CDevtreeView)));//创建模型
+#endif
+//TableView->setUpdatesEnabled(false);  //暂停界面刷新
+    ui->CDevtreeView->setModel(model.get());//导入模型
+    model->setHorizontalHeaderLabels(QStringList()<<QStringLiteral("地址")<<QStringLiteral("状态"));
+    model->setItem(TCP_SERVER,0,new QStandardItem(tr("TCP服务端")));//0,0坐标值
+    model->setItem(TCP_SERVER,1,new QStandardItem(tr("0")));//0,0坐标值
+    model->setItem(TCP_CLINET,0,new QStandardItem(tr("TCP客户端")));//0,0坐标值
+    model->setItem(TCP_CLINET,1,new QStandardItem(tr("0")));//0,0坐标值
+    model->setItem(UDP_SERVER,0,new QStandardItem(tr("UDP服务端")));//  树中存储数据"UDP服务端")));
+    model->setItem(UDP_SERVER,1,new QStandardItem(tr("0")));
+    model->setItem(UDP_CLINET,0,new QStandardItem(tr("UDP客户端")));
+    model->setItem(UDP_CLINET,1,new QStandardItem(tr("0")));
+//TableView->setUpdatesEnabled(true);  //恢复界面刷新
 }
 
 QStandardItem *netTool::getItem(QStandardItemModel *model, QString s)
@@ -103,36 +199,6 @@ QStandardItem *netTool::getItem(QStandardItem *item, QString s)
     }
     return getitem;
 }
-
-enum StandardItemtree
-{
-    TCP_SERVER_TREE_ID,
-    TCP_CLINET_TREE_ID,
-    UDP_SERVER_TREE_ID,
-    UDP_CLINET_TREE_ID,
-};
-
-void netTool::CDevtreeViewInit()
-{
-    //treeview初始化
- #if 1
-    std::unique_ptr<QStandardItemModel>  initModel(new QStandardItemModel(ui->CDevtreeView));
-    model = std::move(initModel);//创建模型
-#else
-    model = std::move(std::unique_ptr<QStandardItemModel> (new QStandardItemModel(ui->CDevtreeView)));//创建模型
-#endif
-//TableView->setUpdatesEnabled(false);  //暂停界面刷新
-    ui->CDevtreeView->setModel(model.get());//导入模型
-    model->setHorizontalHeaderLabels(QStringList()<<QStringLiteral("地址")<<QStringLiteral("状态"));
-    model->setItem(TCP_SERVER_TREE_ID,0,new QStandardItem(tr("TCP服务端")));//0,0坐标值
-    model->setItem(TCP_SERVER_TREE_ID,1,new QStandardItem(tr("0")));//0,0坐标值
-    model->setItem(TCP_CLINET_TREE_ID,0,new QStandardItem(tr("TCP客户端")));//0,0坐标值
-    model->setItem(TCP_CLINET_TREE_ID,1,new QStandardItem(tr("0")));//0,0坐标值
-    model->setItem(UDP_SERVER_TREE_ID,0,new QStandardItem(tr("UDP服务端")));
-    model->setItem(UDP_SERVER_TREE_ID,1,new QStandardItem(tr("0")));
-    model->setItem(UDP_CLINET_TREE_ID,0,new QStandardItem(tr("UDP客户端")));
-    model->setItem(UDP_CLINET_TREE_ID,1,new QStandardItem(tr("0")));
-
 #if 0  //test code
         model->item(0)->appendRow(new QStandardItem(tr("10.100.8.18:99")));
         model->item(0)->appendRow(new QStandardItem(tr("10.100.8.18:98")));
@@ -152,8 +218,6 @@ void netTool::CDevtreeViewInit()
         //testItem->setData();
     }
 #endif
-//TableView->setUpdatesEnabled(true);  //恢复界面刷新
-}
 #ifdef ENABLE_TREE_VIEW
 void netTool::CDevtreeViewTest()
 {
@@ -190,8 +254,32 @@ void netTool::CDevtreeViewTest()
 void netTool::on_CDevtreeView_clicked()
 {
     QString selectTreeBranch;
+
     QModelIndex currentIndex = ui->CDevtreeView->currentIndex();
     QStandardItem* currentItem = model->itemFromIndex(currentIndex);
     selectTreeBranch += currentItem->text();
     ui->CDevIfolabel->setText(selectTreeBranch);
+    treeActiveConnType = currentItem->data(1).toInt();
+    qDebug()<<treeActiveConnType;
+    activeSocket = currentItem->data(0).value<void*>();
+}
+void netTool::on_SendButton_clicked()
+{
+
+    QString sendStr = ui->SendEdit->document()->toPlainText() ;
+    qDebug()<<treeActiveConnType;
+    switch(treeActiveConnType)
+    {
+        case TCP_CLINET:
+            QTcpSocket*  TSocket = (QTcpSocket*)activeSocket;
+            TSocket->write(sendStr.toUtf8().data());
+        break;
+        #if 0
+        case UDP_CLINET:
+            QUdpSocket*  USocket = (QUdpSocket*)activeSocket;
+            USocket->write(sendStr.toUtf8().data());
+        break;
+        #endif
+    }
+
 }
