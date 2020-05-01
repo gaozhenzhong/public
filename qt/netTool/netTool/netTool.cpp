@@ -20,11 +20,15 @@ typedef enum creatConnType
     creatConnType_Max,
 }ecreatConnType;
 
+const int ConnTypeTreeAddr     = 102;
+const int ConnTypeDataTreeAddr = 101;
+
 netTool::netTool(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::netTool)
 {
     ui->setupUi(this);
+    setWindowTitle("网络调试工具");
     //表示绑定函数 fun 而fun 的第一，二个参数分别由调用 f2 的第一，二个参数指定
     netConFunc[0] = std::bind(&netTool::creatTCPSerCon,this,std::placeholders::_1,std::placeholders::_2);
     netConFunc[1] = std::bind(&netTool::creatTCPCltCon,this,std::placeholders::_1,std::placeholders::_2);
@@ -55,8 +59,8 @@ bool netTool::creatTCPSerCon(QString &_ip,QString &_port)
     if(!res) return res;
     model->item(TCP_SERVER)->appendRow(new QStandardItem(_ip+_port));
     QVariant ItemVariant = QVariant::fromValue((void*)tcpServer);
-    model->item(TCP_SERVER)->setData(ItemVariant,101);//  树中存储数据
-    model->item(TCP_SERVER)->setData(TCP_SERVER,102);//  树中存储数据
+    model->item(TCP_SERVER)->setData(ItemVariant,ConnTypeDataTreeAddr);//  树中存储数据
+    model->item(TCP_SERVER)->setData(TCP_SERVER,ConnTypeTreeAddr);//  树中存储数据
 
     connect(tcpServer, &QTcpServer::newConnection,
        [=]()//信号无参数，这里也没有参数
@@ -69,8 +73,8 @@ bool netTool::creatTCPSerCon(QString &_ip,QString &_port)
             QString temp = QString("%1:%2").arg(ip).arg(port);
             QStandardItem *StandardItem = new QStandardItem(temp);
             QVariant ItemVariant = QVariant::fromValue((void*)tcpSocket);
-            StandardItem->setData(ItemVariant,101);
-            StandardItem->setData(TCP_CLINET,102);
+            StandardItem->setData(ItemVariant,ConnTypeDataTreeAddr);
+            StandardItem->setData(TCP_CLINET,ConnTypeTreeAddr);
 
             model->item(TCP_CLINET)->appendRow(StandardItem);
             ui->recBrowser->append(temp+":connet success");
@@ -81,7 +85,6 @@ bool netTool::creatTCPSerCon(QString &_ip,QString &_port)
                     //从通信套接字中取出内容
                     QByteArray array = tcpSocket->readAll();
                     ui->recBrowser->append(temp+":"+array);
-
                 }
             );
        }
@@ -91,7 +94,38 @@ bool netTool::creatTCPSerCon(QString &_ip,QString &_port)
 bool netTool::creatTCPCltCon(QString &_ip,QString &_port)
 {
     bool res = false;
+    bool ok;
+    int port = _port.toInt(&ok);
+    if(!ok)
+    {
+        qDebug()<<"port is no num\n";
+    }
     qDebug()<<__FUNCTION__<<__LINE__<<"function achieve";
+    //分配空间，指定父对象
+    QTcpSocket* tcpSocket = new QTcpSocket(this);
+    tcpSocket->connectToHost(QHostAddress(_ip), port);
+    connect(tcpSocket, &QTcpSocket::connected,
+        [=]()
+        {
+            QString temp = QString("%1:%2").arg(_ip).arg(_port);
+            QStandardItem *StandardItem = new QStandardItem(temp);
+            QVariant ItemVariant = QVariant::fromValue((void*)tcpSocket);
+            StandardItem->setData(ItemVariant,ConnTypeDataTreeAddr);
+            StandardItem->setData(TCP_CLINET,ConnTypeTreeAddr);
+            model->item(TCP_CLINET)->appendRow(StandardItem);
+            ui->recBrowser->append(temp+":connet success");
+        }
+    );
+ //因为tcpSocket已经分配了空间，有指向，所以可以放在外面
+    connect(tcpSocket, &QTcpSocket::readyRead,
+        [=]()
+        {
+            //获取对方发送的内容
+            QByteArray array = tcpSocket->readAll();
+            //追加到编辑区中
+            ui->recBrowser->append(_ip+":"+_port+":"+array);
+        }
+    );
     return res;
 }
 bool netTool::creatUDPSerCon(QString &_ip,QString &_port)
@@ -153,12 +187,16 @@ void netTool::CDevtreeViewInit()
     ui->CDevtreeView->setModel(model.get());//导入模型
     model->setHorizontalHeaderLabels(QStringList()<<QStringLiteral("地址")<<QStringLiteral("状态"));
     model->setItem(TCP_SERVER,0,new QStandardItem(tr("TCP服务端")));//0,0坐标值
+    model->item(TCP_SERVER)->setData(creatConnType_Max,ConnTypeTreeAddr);
     model->setItem(TCP_SERVER,1,new QStandardItem(tr("0")));//0,0坐标值
     model->setItem(TCP_CLINET,0,new QStandardItem(tr("TCP客户端")));//0,0坐标值
+    model->item(TCP_CLINET)->setData(creatConnType_Max,ConnTypeTreeAddr);
     model->setItem(TCP_CLINET,1,new QStandardItem(tr("0")));//0,0坐标值
     model->setItem(UDP_SERVER,0,new QStandardItem(tr("UDP服务端")));//  树中存储数据"UDP服务端")));
+    model->item(UDP_SERVER)->setData(creatConnType_Max,ConnTypeTreeAddr);
     model->setItem(UDP_SERVER,1,new QStandardItem(tr("0")));
     model->setItem(UDP_CLINET,0,new QStandardItem(tr("UDP客户端")));
+    model->item(UDP_CLINET)->setData(creatConnType_Max,ConnTypeTreeAddr);
     model->setItem(UDP_CLINET,1,new QStandardItem(tr("0")));
 //TableView->setUpdatesEnabled(true);  //恢复界面刷新
 }
@@ -259,18 +297,17 @@ void netTool::on_CDevtreeView_clicked()
     QString selectTreeBranch;
 
     QModelIndex currentIndex = ui->CDevtreeView->currentIndex();
-    QStandardItem* currentItem = model->itemFromIndex(currentIndex);
+    currentItem = model->itemFromIndex(currentIndex);
     selectTreeBranch += currentItem->text();
     ui->CDevIfolabel->setText(selectTreeBranch);
-    treeActiveConnType = currentItem->data(102).toInt();
+    treeActiveConnType = currentItem->data(ConnTypeTreeAddr).toInt();
     qDebug()<<treeActiveConnType;
-    activeSocket = currentItem->data(101).value<void*>();
+    activeSocket = currentItem->data(ConnTypeDataTreeAddr).value<void*>();
+
 }
 void netTool::on_SendButton_clicked()
 {
-
     QString sendStr = ui->SendEdit->document()->toPlainText() ;
-    qDebug()<<treeActiveConnType;
     switch(treeActiveConnType)
     {
         case TCP_CLINET:
@@ -284,5 +321,29 @@ void netTool::on_SendButton_clicked()
         break;
         #endif
     }
-
+}
+void netTool::on_DisconButton_clicked()
+{
+    switch(treeActiveConnType)
+    {
+        case TCP_SERVER:
+#if 0
+            QTcpServer*  TServer = (QTcpServer*)activeSocket;
+            //主动和客户端断开连接
+            TServer->close();
+            delete TServer;
+            activeSocket = NULL;
+            currentItem->parent()->removeRow(currentItem->row());
+#endif
+        break;
+        case TCP_CLINET:
+            QTcpSocket*  TSocket = (QTcpSocket*)activeSocket;
+            //主动和客户端断开连接
+            TSocket->disconnectFromHost();
+            TSocket->close();
+            delete TSocket;
+            activeSocket = NULL;
+            currentItem->parent()->removeRow(currentItem->row());
+        break;
+    }
 }

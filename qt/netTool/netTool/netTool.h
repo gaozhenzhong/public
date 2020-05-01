@@ -26,12 +26,14 @@ private slots:
     void on_conButton_clicked();
     void on_CDevtreeView_clicked();
     void on_SendButton_clicked();
+    void on_DisconButton_clicked();
 private:
     Ui::netTool *ui;
     std::unique_ptr<QStandardItemModel>  model;
     QStandardItem *getItem(QStandardItemModel *model, QString s);
     QStandardItem *getItem(QStandardItem *item, QString s);
     void CDevtreeViewInit(void);
+    QStandardItem* currentItem;
 #ifdef ENABLE_TREE_VIEW
     void CDevtreeViewTest(void);
 #endif
