@@ -7,9 +7,6 @@
 #include<QStandardItemModel>
 #include<QHostAddress>
 #include"baseClass.h"
-//todo：：参数合法性
-//todo:: 已将链接设备的存储方式，优先使用RTII方式管理，查重
-//todo::链接和软件左侧树的联动
 //todo::不同实现方式的性能对比：qt，自己、mudo等
 typedef enum creatConnType
 {
@@ -57,10 +54,12 @@ bool netTool::creatTCPSerCon(QString &_ip,QString &_port)
     QTcpServer *tcpServer = new QTcpServer(this);
     res = tcpServer->listen(QHostAddress::Any, port);
     if(!res) return res;
-    model->item(TCP_SERVER)->appendRow(new QStandardItem(_ip+_port));
+
+    QStandardItem *StandardItemSer = new QStandardItem(_ip+":"+_port);
     QVariant ItemVariant = QVariant::fromValue((void*)tcpServer);
-    model->item(TCP_SERVER)->setData(ItemVariant,ConnTypeDataTreeAddr);//  树中存储数据
-    model->item(TCP_SERVER)->setData(TCP_SERVER,ConnTypeTreeAddr);//  树中存储数据
+    StandardItemSer->setData(ItemVariant,ConnTypeDataTreeAddr);//  树中存储数据
+    StandardItemSer->setData(TCP_SERVER,ConnTypeTreeAddr);//  树中存储数据
+    model->item(TCP_SERVER)->appendRow(StandardItemSer);
 
     connect(tcpServer, &QTcpServer::newConnection,
        [=]()//信号无参数，这里也没有参数
@@ -75,9 +74,9 @@ bool netTool::creatTCPSerCon(QString &_ip,QString &_port)
             QVariant ItemVariant = QVariant::fromValue((void*)tcpSocket);
             StandardItem->setData(ItemVariant,ConnTypeDataTreeAddr);
             StandardItem->setData(TCP_CLINET,ConnTypeTreeAddr);
-
             model->item(TCP_CLINET)->appendRow(StandardItem);
             ui->recBrowser->append(temp+":connet success");
+            TCPSerSocketItem.push_back(StandardItem);
             //必须放在里面，因为建立好链接才能读，或者说tcpSocket有指向才能操作
             connect(tcpSocket, &QTcpSocket::readyRead,
                 [=]()
@@ -86,9 +85,10 @@ bool netTool::creatTCPSerCon(QString &_ip,QString &_port)
                     QByteArray array = tcpSocket->readAll();
                     ui->recBrowser->append(temp+":"+array);
                 }
-            );
+            );        
        }
     );
+   // 原文链接：https://blog.csdn.net/tt1995cc/java/article/details/70770042
     return res;
 }
 bool netTool::creatTCPCltCon(QString &_ip,QString &_port)
@@ -104,6 +104,7 @@ bool netTool::creatTCPCltCon(QString &_ip,QString &_port)
     //分配空间，指定父对象
     QTcpSocket* tcpSocket = new QTcpSocket(this);
     tcpSocket->connectToHost(QHostAddress(_ip), port);
+
     connect(tcpSocket, &QTcpSocket::connected,
         [=]()
         {
@@ -303,7 +304,7 @@ void netTool::on_CDevtreeView_clicked()
     treeActiveConnType = currentItem->data(ConnTypeTreeAddr).toInt();
     qDebug()<<treeActiveConnType;
     activeSocket = currentItem->data(ConnTypeDataTreeAddr).value<void*>();
-
+    qDebug()<<activeSocket;
 }
 void netTool::on_SendButton_clicked()
 {
@@ -324,19 +325,37 @@ void netTool::on_SendButton_clicked()
 }
 void netTool::on_DisconButton_clicked()
 {
+    if((activeSocket == NULL)||(currentItem == NULL))
+    {
+        qDebug()<<"activeSocket == NULL";
+        return ;
+    }
     switch(treeActiveConnType)
     {
-        case TCP_SERVER:
-#if 0
+        case TCP_SERVER:{
+            for(auto iter = TCPSerSocketItem.begin();iter != TCPSerSocketItem.end();)
+            {
+                QStandardItem*   nowItem = *iter;
+                QTcpSocket*  TSocket = (QTcpSocket*)nowItem->data(ConnTypeDataTreeAddr).value<void*>();
+                //主动和客户端断开连接
+                //TSocket->disconnectFromHost();
+                TSocket->close();
+                delete TSocket;
+                TCPSerSocketItem.erase(iter++);
+                nowItem->parent()->removeRow(nowItem->row());
+
+            }
             QTcpServer*  TServer = (QTcpServer*)activeSocket;
             //主动和客户端断开连接
             TServer->close();
             delete TServer;
             activeSocket = NULL;
             currentItem->parent()->removeRow(currentItem->row());
-#endif
+        }
         break;
+#if 1
         case TCP_CLINET:
+         {
             QTcpSocket*  TSocket = (QTcpSocket*)activeSocket;
             //主动和客户端断开连接
             TSocket->disconnectFromHost();
@@ -344,6 +363,8 @@ void netTool::on_DisconButton_clicked()
             delete TSocket;
             activeSocket = NULL;
             currentItem->parent()->removeRow(currentItem->row());
+        }
         break;
+#endif
     }
 }

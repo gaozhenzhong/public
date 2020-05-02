@@ -7,6 +7,7 @@
 #include<QUdpSocket>
 #include<QTcpServer>
 #include <iostream>
+#include <list>
 //#define ENABLE_TREE_VIEW
 
 QT_BEGIN_NAMESPACE
@@ -45,6 +46,7 @@ ptrsToInts.emplace_back(new int);
 */
 
     bool creatTCPSerCon(QString &_ip,QString &_port);
+    std::list<QStandardItem *> TCPSerSocketItem;
     bool creatTCPCltCon(QString &_ip,QString &_port);
     bool creatUDPSerCon(QString &_ip,QString &_port);
     bool creatUDPCltCon(QString &_ip,QString &_port);
