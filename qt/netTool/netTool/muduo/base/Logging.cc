@@ -86,7 +86,7 @@ inline LogStream& operator<<(LogStream& s, T v)
   s.append(v.str_, v.len_);
   return s;
 }
-
+//非成员函数，左操作数的类型必须被显式指定，成员函数可以省略
 inline LogStream& operator<<(LogStream& s, const Logger::SourceFile& v)
 {
   s.append(v.data_, v.size_);

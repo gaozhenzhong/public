@@ -33,7 +33,7 @@ class Logger
   {
    public:
     template<int N>//只能传常数
-    SourceFile(const char (&arr)[N])//这样是建立一个数组，数组的元素是引用这样C++不支持，因为引用不可以作数组中的元素。
+    SourceFile(const char (&arr)[N])//这样是建立一个数组，数组的元素是引用C++不支持，因为引用不可以作数组中的元素。
       : data_(arr),
         size_(N-1)
     {
@@ -78,7 +78,7 @@ class Logger
   static void setTimeZone(const TimeZone& tz);
 
  private:
-
+//私有借口
 class Impl
 {
  public:
