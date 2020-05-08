@@ -31,7 +31,7 @@ netTool::netTool(QWidget *parent)
     netConFunc[1] = std::bind(&netTool::creatTCPCltCon,this,std::placeholders::_1,std::placeholders::_2);
     netConFunc[2] = std::bind(&netTool::creatUDPSerCon,this,std::placeholders::_1,std::placeholders::_2);
     netConFunc[3] = std::bind(&netTool::creatUDPCltCon,this,std::placeholders::_1,std::placeholders::_2);
-
+    LOG_INFO<<"test";
 #ifdef ENABLE_TREE_VIEW
     CDevtreeViewTest();
 #else
