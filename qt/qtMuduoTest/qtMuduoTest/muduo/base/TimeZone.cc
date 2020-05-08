@@ -231,6 +231,7 @@ const Localtime* findLocaltime(const TimeZone::Data& data, Transition sentry, Co
   }
   else
   {
+    //lower_bound( begin,end,num)：从数组的begin位置到end-1位置二分查找第一个大于或等于num的数字，找到返回该数字的地址，不存在则返回end。
     vector<Transition>::const_iterator transI = lower_bound(data.transitions.begin(),
                                                             data.transitions.end(),
                                                             sentry,
