@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>codecDev</class>
+ <widget class="QDialog" name="codecDev">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>codecDev</string>
+  </property>
+  <widget class="QTextBrowser" name="logTextBrowser">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>150</y>
+     <width>711</width>
+     <height>431</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="logLabel">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>130</y>
+     <width>67</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>LOG</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="IPLineEdit">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>50</y>
+     <width>191</width>
+     <height>25</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="IPLabel">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>50</y>
+     <width>21</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>IP :</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="portLabel">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>50</y>
+     <width>67</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>PORT :</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="portLineEdit">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>50</y>
+     <width>181</width>
+     <height>25</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="conPushButton">
+   <property name="geometry">
+    <rect>
+     <x>660</x>
+     <y>50</y>
+     <width>89</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>connect</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="devNameLabel">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>10</y>
+     <width>67</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>DevName:</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="testPushButton">
+   <property name="geometry">
+    <rect>
+     <x>660</x>
+     <y>90</y>
+     <width>89</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TesTStart</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="testModecomboBox">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>90</y>
+     <width>191</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>TestMode1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>TestMode2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>TestMode3</string>
+    </property>
+   </item>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -37,6 +37,26 @@ SOURCES += \
     muduo/base/ThreadPool.cc \
     muduo/base/TimeZone.cc \
     muduo/base/Timestamp.cc \
+    muduo/net/Acceptor.cc \
+    muduo/net/Buffer.cc \
+    muduo/net/Channel.cc \
+    muduo/net/Connector.cc \
+    muduo/net/EventLoop.cc \
+    muduo/net/EventLoopThread.cc \
+    muduo/net/EventLoopThreadPool.cc \
+    muduo/net/InetAddress.cc \
+    muduo/net/Poller.cc \
+    muduo/net/Socket.cc \
+    muduo/net/SocketsOps.cc \
+    muduo/net/TcpClient.cc \
+    muduo/net/TcpConnection.cc \
+    muduo/net/TcpServer.cc \
+    muduo/net/Timer.cc \
+    muduo/net/TimerQueue.cc \
+    muduo/net/poller/DefaultPoller.cc \
+    muduo/net/poller/EPollPoller.cc \
+    muduo/net/poller/PollPoller.cc \
+    myclass/UDPServer.cpp \
     netTool.cpp
 
 HEADERS += \
@@ -70,6 +90,30 @@ HEADERS += \
     muduo/base/WeakCallback.h \
     muduo/base/copyable.h \
     muduo/base/noncopyable.h \
+    muduo/net/Acceptor.h \
+    muduo/net/Buffer.h \
+    muduo/net/Callbacks.h \
+    muduo/net/Channel.h \
+    muduo/net/Connector.h \
+    muduo/net/Endian.h \
+    muduo/net/EventLoop.h \
+    muduo/net/EventLoopThread.h \
+    muduo/net/EventLoopThreadPool.h \
+    muduo/net/InetAddress.h \
+    muduo/net/Poller.h \
+    muduo/net/Socket.h \
+    muduo/net/SocketsOps.h \
+    muduo/net/TcpClient.h \
+    muduo/net/TcpConnection.h \
+    muduo/net/TcpServer.h \
+    muduo/net/Timer.h \
+    muduo/net/TimerId.h \
+    muduo/net/TimerQueue.h \
+    muduo/net/ZlibStream.h \
+    muduo/net/boilerplate.h \
+    muduo/net/poller/EPollPoller.h \
+    muduo/net/poller/PollPoller.h \
+    myclass/UDPServer.h \
     netTool.h
 
 FORMS += \
@@ -79,5 +123,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
 
 
