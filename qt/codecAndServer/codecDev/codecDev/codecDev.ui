@@ -13,44 +13,27 @@
   <property name="windowTitle">
    <string>codecDev</string>
   </property>
-  <widget class="QTextBrowser" name="logTextBrowser">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>150</y>
-     <width>711</width>
-     <height>431</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="logLabel">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>130</y>
-     <width>67</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>LOG</string>
-   </property>
-  </widget>
   <widget class="QLineEdit" name="IPLineEdit">
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>50</y>
+     <y>40</y>
      <width>191</width>
      <height>25</height>
     </rect>
+   </property>
+   <property name="text">
+    <string>127.0.0.1</string>
+   </property>
+   <property name="maxLength">
+    <number>20</number>
    </property>
   </widget>
   <widget class="QLabel" name="IPLabel">
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>50</y>
+     <y>40</y>
      <width>21</width>
      <height>17</height>
     </rect>
@@ -63,7 +46,7 @@
    <property name="geometry">
     <rect>
      <x>320</x>
-     <y>50</y>
+     <y>40</y>
      <width>67</width>
      <height>17</height>
     </rect>
@@ -76,17 +59,23 @@
    <property name="geometry">
     <rect>
      <x>390</x>
-     <y>50</y>
+     <y>40</y>
      <width>181</width>
      <height>25</height>
     </rect>
+   </property>
+   <property name="text">
+    <string>8001</string>
+   </property>
+   <property name="maxLength">
+    <number>10</number>
    </property>
   </widget>
   <widget class="QPushButton" name="conPushButton">
    <property name="geometry">
     <rect>
      <x>660</x>
-     <y>50</y>
+     <y>40</y>
      <width>89</width>
      <height>25</height>
     </rect>
@@ -100,19 +89,19 @@
     <rect>
      <x>40</x>
      <y>10</y>
-     <width>67</width>
+     <width>321</width>
      <height>17</height>
     </rect>
    </property>
    <property name="text">
-    <string>DevName:</string>
+    <string>DevName :</string>
    </property>
   </widget>
   <widget class="QPushButton" name="testPushButton">
    <property name="geometry">
     <rect>
      <x>660</x>
-     <y>90</y>
+     <y>80</y>
      <width>89</width>
      <height>25</height>
     </rect>
@@ -125,7 +114,7 @@
    <property name="geometry">
     <rect>
      <x>100</x>
-     <y>90</y>
+     <y>80</y>
      <width>191</width>
      <height>25</height>
     </rect>
@@ -145,6 +134,100 @@
      <string>TestMode3</string>
     </property>
    </item>
+  </widget>
+  <widget class="QTabWidget" name="tabWidget">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>120</y>
+     <width>731</width>
+     <height>471</height>
+    </rect>
+   </property>
+   <property name="currentIndex">
+    <number>1</number>
+   </property>
+   <widget class="QWidget" name="log">
+    <attribute name="title">
+     <string>log</string>
+    </attribute>
+    <widget class="QTextBrowser" name="logTextBrowser">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>711</width>
+       <height>421</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="order">
+    <attribute name="title">
+     <string>order</string>
+    </attribute>
+    <widget class="QLineEdit" name="sendOrderLineEdit">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>10</y>
+       <width>391</width>
+       <height>25</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="sendOrderButton">
+     <property name="geometry">
+      <rect>
+       <x>600</x>
+       <y>10</y>
+       <width>89</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>SendOrder</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="orderComboBox">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>10</y>
+       <width>131</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <item>
+      <property name="text">
+       <string>StrOrder</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="recOrderLabel">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>50</y>
+       <width>67</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>recOrder</string>
+     </property>
+    </widget>
+    <widget class="QTextBrowser" name="recOrderBrowser">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>80</y>
+       <width>691</width>
+       <height>351</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
   </widget>
  </widget>
  <resources/>
