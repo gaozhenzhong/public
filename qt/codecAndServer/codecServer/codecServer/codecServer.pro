@@ -51,7 +51,8 @@ SOURCES += \
     muduo/net/TimerQueue.cc \
     muduo/net/poller/DefaultPoller.cc \
     muduo/net/poller/EPollPoller.cc \
-    muduo/net/poller/PollPoller.cc
+    muduo/net/poller/PollPoller.cc \
+    server/socketServer.cpp
 
 HEADERS += \
     codecServer.h \
@@ -104,7 +105,8 @@ HEADERS += \
     muduo/net/TimerQueue.h \
     muduo/net/ZlibStream.h \
     muduo/net/poller/EPollPoller.h \
-    muduo/net/poller/PollPoller.h
+    muduo/net/poller/PollPoller.h \
+    server/socketServer.h
 
 FORMS += \
     codecServer.ui
