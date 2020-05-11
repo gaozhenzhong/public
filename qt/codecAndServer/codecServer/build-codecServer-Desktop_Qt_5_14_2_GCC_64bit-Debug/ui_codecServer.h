@@ -73,7 +73,7 @@ public:
 
         retranslateUi(codecServer);
 
-        tabWidget->setCurrentIndex(1);
+        tabWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(codecServer);
