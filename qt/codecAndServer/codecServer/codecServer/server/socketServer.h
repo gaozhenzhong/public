@@ -12,6 +12,7 @@ public:
     explicit socketServer(std::string _ip,int _port);
     bool     threadStart(void);
     void     acceptThread(void);
+
 private:
     muduo::MutexLock     mutex_;
 

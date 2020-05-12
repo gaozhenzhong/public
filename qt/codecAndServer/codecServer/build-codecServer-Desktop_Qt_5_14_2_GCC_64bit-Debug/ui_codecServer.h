@@ -11,7 +11,6 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QComboBox>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
@@ -32,9 +31,10 @@ public:
     QPushButton *serverStartButton;
     QTabWidget *tabWidget;
     QWidget *log;
-    QTextBrowser *textBrowser;
+    QTextBrowser *logTextBrowser;
     QWidget *devInfo;
-    QComboBox *serModeComboBox;
+    QLabel *IpLabel;
+    QLineEdit *IpLineEdit;
 
     void setupUi(QWidget *codecServer)
     {
@@ -46,30 +46,31 @@ public:
         devTreeView->setGeometry(QRect(10, 10, 256, 571));
         portLabel = new QLabel(codecServer);
         portLabel->setObjectName(QString::fromUtf8("portLabel"));
-        portLabel->setGeometry(QRect(440, 10, 67, 17));
+        portLabel->setGeometry(QRect(500, 10, 67, 17));
         PortLineEdit = new QLineEdit(codecServer);
         PortLineEdit->setObjectName(QString::fromUtf8("PortLineEdit"));
-        PortLineEdit->setGeometry(QRect(500, 10, 113, 25));
+        PortLineEdit->setGeometry(QRect(550, 10, 113, 25));
         serverStartButton = new QPushButton(codecServer);
         serverStartButton->setObjectName(QString::fromUtf8("serverStartButton"));
-        serverStartButton->setGeometry(QRect(640, 10, 89, 25));
+        serverStartButton->setGeometry(QRect(680, 10, 89, 25));
         tabWidget = new QTabWidget(codecServer);
         tabWidget->setObjectName(QString::fromUtf8("tabWidget"));
         tabWidget->setGeometry(QRect(290, 60, 491, 521));
         log = new QWidget();
         log->setObjectName(QString::fromUtf8("log"));
-        textBrowser = new QTextBrowser(log);
-        textBrowser->setObjectName(QString::fromUtf8("textBrowser"));
-        textBrowser->setGeometry(QRect(0, 0, 491, 471));
+        logTextBrowser = new QTextBrowser(log);
+        logTextBrowser->setObjectName(QString::fromUtf8("logTextBrowser"));
+        logTextBrowser->setGeometry(QRect(0, 0, 491, 471));
         tabWidget->addTab(log, QString());
         devInfo = new QWidget();
         devInfo->setObjectName(QString::fromUtf8("devInfo"));
         tabWidget->addTab(devInfo, QString());
-        serModeComboBox = new QComboBox(codecServer);
-        serModeComboBox->addItem(QString());
-        serModeComboBox->addItem(QString());
-        serModeComboBox->setObjectName(QString::fromUtf8("serModeComboBox"));
-        serModeComboBox->setGeometry(QRect(290, 10, 86, 25));
+        IpLabel = new QLabel(codecServer);
+        IpLabel->setObjectName(QString::fromUtf8("IpLabel"));
+        IpLabel->setGeometry(QRect(310, 10, 31, 17));
+        IpLineEdit = new QLineEdit(codecServer);
+        IpLineEdit->setObjectName(QString::fromUtf8("IpLineEdit"));
+        IpLineEdit->setGeometry(QRect(342, 10, 141, 25));
 
         retranslateUi(codecServer);
 
@@ -83,12 +84,12 @@ public:
     {
         codecServer->setWindowTitle(QCoreApplication::translate("codecServer", "codecServer", nullptr));
         portLabel->setText(QCoreApplication::translate("codecServer", "PORT \357\274\232", nullptr));
+        PortLineEdit->setText(QCoreApplication::translate("codecServer", "8001", nullptr));
         serverStartButton->setText(QCoreApplication::translate("codecServer", "ServerStart", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(log), QCoreApplication::translate("codecServer", "Log", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(devInfo), QCoreApplication::translate("codecServer", "DevInfo", nullptr));
-        serModeComboBox->setItemText(0, QCoreApplication::translate("codecServer", "Mode1", nullptr));
-        serModeComboBox->setItemText(1, QString());
-
+        IpLabel->setText(QCoreApplication::translate("codecServer", "IP :", nullptr));
+        IpLineEdit->setText(QCoreApplication::translate("codecServer", "127.0.0.1", nullptr));
     } // retranslateUi
 
 };

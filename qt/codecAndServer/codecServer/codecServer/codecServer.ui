@@ -26,7 +26,7 @@
   <widget class="QLabel" name="portLabel">
    <property name="geometry">
     <rect>
-     <x>440</x>
+     <x>500</x>
      <y>10</y>
      <width>67</width>
      <height>17</height>
@@ -39,17 +39,20 @@
   <widget class="QLineEdit" name="PortLineEdit">
    <property name="geometry">
     <rect>
-     <x>500</x>
+     <x>550</x>
      <y>10</y>
      <width>113</width>
      <height>25</height>
     </rect>
    </property>
+   <property name="text">
+    <string>8001</string>
+   </property>
   </widget>
   <widget class="QPushButton" name="serverStartButton">
    <property name="geometry">
     <rect>
-     <x>640</x>
+     <x>680</x>
      <y>10</y>
      <width>89</width>
      <height>25</height>
@@ -75,7 +78,7 @@
     <attribute name="title">
      <string>Log</string>
     </attribute>
-    <widget class="QTextBrowser" name="textBrowser">
+    <widget class="QTextBrowser" name="logTextBrowser">
      <property name="geometry">
       <rect>
        <x>0</x>
@@ -92,25 +95,31 @@
     </attribute>
    </widget>
   </widget>
-  <widget class="QComboBox" name="serModeComboBox">
+  <widget class="QLabel" name="IpLabel">
    <property name="geometry">
     <rect>
-     <x>290</x>
+     <x>310</x>
      <y>10</y>
-     <width>86</width>
+     <width>31</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>IP :</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="IpLineEdit">
+   <property name="geometry">
+    <rect>
+     <x>342</x>
+     <y>10</y>
+     <width>141</width>
      <height>25</height>
     </rect>
    </property>
-   <item>
-    <property name="text">
-     <string>Mode1</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string/>
-    </property>
-   </item>
+   <property name="text">
+    <string>127.0.0.1</string>
+   </property>
   </widget>
  </widget>
  <resources/>

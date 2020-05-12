@@ -1,5 +1,7 @@
 #include "socketServer.h"
 #include <functional>
+#include <unistd.h>
+#include"muduo/base/Logging.h"
 
 socketServer::socketServer(std::string _ip,int _port)
     : thread( std::unique_ptr<muduo::Thread> (new muduo::Thread(std::bind(&socketServer::acceptThread,this))) ),
@@ -17,5 +19,10 @@ bool socketServer::threadStart(void)
 }
 void socketServer::acceptThread(void)
 {
-    std::cout<<"socketServer::acceptThread start"<<std::endl;
+    while(1)
+    {
+        sleep(1);
+        LOG_INFO<<"socketServer::acceptThread start";
+    }
 }
+
