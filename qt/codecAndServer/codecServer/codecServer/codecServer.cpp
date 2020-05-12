@@ -10,6 +10,7 @@ codecServer::codecServer(QWidget *parent)
     uiLogTimeZone = std::unique_ptr<muduo::TimeZone>(new muduo::TimeZone(8*3600,"china"));
     muduo::Logger::setLogLevel(muduo::Logger::TRACE);
     muduo::Logger::setTimeZone(*uiLogTimeZone.get());
+// start ui
     ui->setupUi(this);
 }
 
