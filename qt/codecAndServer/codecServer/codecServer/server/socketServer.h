@@ -15,7 +15,6 @@ public:
 
 private:
     muduo::MutexLock     mutex_;
-
     std::unique_ptr<muduo::Thread> thread;
     std::string ip;
     int port;
