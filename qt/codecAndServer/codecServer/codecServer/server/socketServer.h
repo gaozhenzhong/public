@@ -18,7 +18,8 @@ private:
 
     std::unique_ptr<muduo::Thread> thread;
     std::string ip;
-    int  port;
+    int port;
+    int serverLstFd;
 };
 
 #endif // SOCKETSERVER_H
