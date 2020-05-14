@@ -13,14 +13,16 @@ public:
     bool     threadStart(void);
     bool     threadEnd(void);
     void     acceptThread(void);
-
+private:
+    void setnonblocking(int sockfd);
 private:
     muduo::MutexLock     mutex_;
+    bool threadIsRunning;
     std::unique_ptr<muduo::Thread> thread;
+
     std::string ip;
     int port;
     int serverLstFd;
-
 };
 
 #endif // SOCKETSERVER_H

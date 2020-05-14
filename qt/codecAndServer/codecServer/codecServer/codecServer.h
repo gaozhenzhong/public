@@ -20,6 +20,7 @@ public:
 
 private slots:
     void on_serverStartButton_clicked();
+
 private:
     Ui::codecServer *ui;
     int serverPort;

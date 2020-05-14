@@ -4,7 +4,8 @@
 #include "muduo/base/Logging.h"
 codecServer::codecServer(QWidget *parent)
     : QWidget(parent)
-    , ui(new Ui::codecServer)
+    , ui(new Ui::codecServer),
+      scktServer(NULL)
 {
 //init muduo::Logger
     uiLogTimeZone = std::unique_ptr<muduo::TimeZone>(new muduo::TimeZone(8*3600,"china"));
@@ -23,7 +24,7 @@ codecServer::~codecServer()
 void codecServer::on_serverStartButton_clicked()
 {
     bool bRst;
-    if(NULL != scktServer)
+    if(NULL == scktServer)
     {
         serverPort = ui->PortLineEdit->text().toInt(&bRst);
         serverIP = ui->IpLineEdit->text();
@@ -37,6 +38,7 @@ void codecServer::on_serverStartButton_clicked()
         scktServer->threadEnd();
         delete  scktServer;
         scktServer = NULL;
+        ui->serverStartButton->setText("ConnServer");
     }
 
 }
