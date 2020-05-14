@@ -11,6 +11,7 @@ class socketServer : muduo::noncopyable
 public:
     explicit socketServer(std::string _ip,int _port);
     bool     threadStart(void);
+    bool     threadEnd(void);
     void     acceptThread(void);
 
 private:
@@ -19,6 +20,7 @@ private:
     std::string ip;
     int port;
     int serverLstFd;
+
 };
 
 #endif // SOCKETSERVER_H

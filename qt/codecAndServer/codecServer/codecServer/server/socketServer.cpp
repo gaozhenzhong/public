@@ -47,10 +47,18 @@ bool socketServer::threadStart(void)
         LOG_ERROR<<"listen error\n";
         exit(1);
     }
-    LOG_INFO<<"serverLstFd = "<<serverLstFd;
+   // LOG_INFO<<"serverLstFd = "<<serverLstFd;
 
     thread->start();
     rst = true;
+    return rst;
+}
+bool socketServer::threadEnd(void)
+{
+    bool rst = true;
+
+    LOG_INFO<<"server stop!";
+
     return rst;
 }
 void socketServer::acceptThread(void)

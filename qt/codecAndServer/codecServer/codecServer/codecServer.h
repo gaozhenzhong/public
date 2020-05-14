@@ -25,7 +25,7 @@ private:
     int serverPort;
     QString serverIP;
     std::unique_ptr<muduo::TimeZone> uiLogTimeZone;
-
+    socketServer* scktServer;
 };
 
 #endif // CODECSERVER_H

@@ -23,10 +23,20 @@ codecServer::~codecServer()
 void codecServer::on_serverStartButton_clicked()
 {
     bool bRst;
-    serverPort = ui->PortLineEdit->text().toInt(&bRst);
-    serverIP = ui->IpLineEdit->text();
-    socketServer sckServer(serverIP.toStdString(),serverPort);
-    sckServer.threadStart();
-    ui->logTextBrowser->append(QString("%1 : %2 : creat success").arg(serverIP).arg(serverPort));
-    ui->serverStartButton->setText("stopServer");
+    if(NULL != scktServer)
+    {
+        serverPort = ui->PortLineEdit->text().toInt(&bRst);
+        serverIP = ui->IpLineEdit->text();
+        scktServer=new socketServer(serverIP.toStdString(),serverPort);
+        scktServer->threadStart();
+        ui->logTextBrowser->append(QString("%1 : %2 : creat success").arg(serverIP).arg(serverPort));
+        ui->serverStartButton->setText("stopServer");
+    }
+    else
+    {
+        scktServer->threadEnd();
+        delete  scktServer;
+        scktServer = NULL;
+    }
+
 }
