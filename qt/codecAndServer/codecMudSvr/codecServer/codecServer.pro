@@ -18,7 +18,6 @@ INCLUDEPATH += ./server
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    codecDev.cpp \
     main.cpp \
     codecServer.cpp \
     muduo/base/AsyncLogging.cc \
@@ -55,11 +54,9 @@ SOURCES += \
     muduo/net/poller/DefaultPoller.cc \
     muduo/net/poller/EPollPoller.cc \
     muduo/net/poller/PollPoller.cc \
-    server/socketClient.cpp \
     server/socketServer.cpp
 
 HEADERS += \
-    codecDev.h \
     codecServer.h \
     muduo/base/AsyncLogging.h \
     muduo/base/Atomic.h \
@@ -111,7 +108,6 @@ HEADERS += \
     muduo/net/ZlibStream.h \
     muduo/net/poller/EPollPoller.h \
     muduo/net/poller/PollPoller.h \
-    server/socketClient.h \
     server/socketServer.h
 
 FORMS += \
