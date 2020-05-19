@@ -31,7 +31,6 @@ SOURCES += \
         muduo/base/ThreadPool.cc \
         muduo/base/TimeZone.cc \
         muduo/base/Timestamp.cc \
-        muduo/base/tests/TimeZone_unittest.cc \
         muduo/net/Acceptor.cc \
         muduo/net/Buffer.cc \
         muduo/net/Channel.cc \
