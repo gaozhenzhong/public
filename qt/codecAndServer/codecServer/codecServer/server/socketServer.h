@@ -2,7 +2,7 @@
 #define SOCKETSERVER_H
 #include "muduo/base/Thread.h"
 #include "muduo/base/noncopyable.h"
-
+#include "codecDev.h"
 #include <memory.h>
 #include <iostream>
 
@@ -13,13 +13,13 @@ public:
     bool     threadStart(void);
     bool     threadEnd(void);
     void     acceptThread(void);
+    typedef  std::function<void (codecDev &cDev)> creatNewCdev;
 private:
     void setnonblocking(int sockfd);
 private:
     muduo::MutexLock     mutex_;
     bool threadIsRunning;
     std::unique_ptr<muduo::Thread> thread;
-
     std::string ip;
     int port;
     int serverLstFd;
