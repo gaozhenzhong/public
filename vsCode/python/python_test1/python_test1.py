@@ -14,3 +14,4 @@ if __name__=="__main__":
  f.writelines(li)
  f.close()
  print("mind end!")
+
