@@ -22,6 +22,23 @@ codecServer::~codecServer()
 
 void codecServer::on_serverStartButton_clicked()
 {
+    bool bRst;
+    if(NULL == connServer_)
+    {
+        serverPort = ui->PortLineEdit->text().toInt(&bRst);
+        serverIP = ui->IpLineEdit->text();
+
+        connServer_=new connServer(serverIP.toStdString(),serverPort);
+
+        ui->logTextBrowser->append(QString("%1 : %2 : creat success").arg(serverIP).arg(serverPort));
+        ui->serverStartButton->setText("stopServer");
+    }
+    else
+    {
+        delete  connServer_;
+        connServer_ = NULL;
+        ui->serverStartButton->setText("ConnServer");
+    }
 #ifdef SOCKT_SERVER_CLASS
     bool bRst;
     if(NULL == scktServer)

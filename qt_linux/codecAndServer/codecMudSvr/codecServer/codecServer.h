@@ -4,6 +4,7 @@
 #include <QWidget>
 #include"muduo/base/TimeZone.h"
 #include "server/socketServer.h"
+#include "server/connServer.h"
 #include <iostream>
 //#define SOCKT_SERVER_CLASS
 QT_BEGIN_NAMESPACE
@@ -29,6 +30,7 @@ private:
 #ifdef SOCKT_SERVER_CLASS
     socketServer* scktServer;
 #endif
+    connServer* connServer_ = NULL;
 };
 
 #endif // CODECSERVER_H

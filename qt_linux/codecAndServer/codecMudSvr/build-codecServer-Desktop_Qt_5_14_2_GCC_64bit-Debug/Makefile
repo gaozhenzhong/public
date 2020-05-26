@@ -88,6 +88,7 @@ SOURCES       = ../codecServer/main.cpp \
 		../codecServer/muduo/net/poller/DefaultPoller.cc \
 		../codecServer/muduo/net/poller/EPollPoller.cc \
 		../codecServer/muduo/net/poller/PollPoller.cc \
+		../codecServer/server/connServer.cpp \
 		../codecServer/server/socketServer.cpp moc_codecServer.cpp
 OBJECTS       = main.o \
 		codecServer.o \
@@ -125,6 +126,7 @@ OBJECTS       = main.o \
 		DefaultPoller.o \
 		EPollPoller.o \
 		PollPoller.o \
+		connServer.o \
 		socketServer.o \
 		moc_codecServer.o
 DIST          = ../codecServer/muduo/net/BUILD.bazel \
@@ -319,6 +321,7 @@ DIST          = ../codecServer/muduo/net/BUILD.bazel \
 		/home/kevin/Qt5.14.2/5.14.2/gcc_64/mkspecs/features/qt_config.prf \
 		/home/kevin/Qt5.14.2/5.14.2/gcc_64/mkspecs/linux-g++/qmake.conf \
 		/home/kevin/Qt5.14.2/5.14.2/gcc_64/mkspecs/features/spec_post.prf \
+		../codecServer/.qmake.stash \
 		/home/kevin/Qt5.14.2/5.14.2/gcc_64/mkspecs/features/exclusive_builds.prf \
 		/home/kevin/Qt5.14.2/5.14.2/gcc_64/mkspecs/features/toolchain.prf \
 		/home/kevin/Qt5.14.2/5.14.2/gcc_64/mkspecs/features/default_pre.prf \
@@ -390,6 +393,7 @@ DIST          = ../codecServer/muduo/net/BUILD.bazel \
 		../codecServer/muduo/net/ZlibStream.h \
 		../codecServer/muduo/net/poller/EPollPoller.h \
 		../codecServer/muduo/net/poller/PollPoller.h \
+		../codecServer/server/connServer.h \
 		../codecServer/server/socketServer.h ../codecServer/main.cpp \
 		../codecServer/codecServer.cpp \
 		../codecServer/muduo/base/AsyncLogging.cc \
@@ -426,6 +430,7 @@ DIST          = ../codecServer/muduo/net/BUILD.bazel \
 		../codecServer/muduo/net/poller/DefaultPoller.cc \
 		../codecServer/muduo/net/poller/EPollPoller.cc \
 		../codecServer/muduo/net/poller/PollPoller.cc \
+		../codecServer/server/connServer.cpp \
 		../codecServer/server/socketServer.cpp
 QMAKE_TARGET  = codecServer
 DESTDIR       = 
@@ -628,6 +633,7 @@ Makefile: ../codecServer/codecServer.pro /home/kevin/Qt5.14.2/5.14.2/gcc_64/mksp
 		/home/kevin/Qt5.14.2/5.14.2/gcc_64/mkspecs/features/qt_config.prf \
 		/home/kevin/Qt5.14.2/5.14.2/gcc_64/mkspecs/linux-g++/qmake.conf \
 		/home/kevin/Qt5.14.2/5.14.2/gcc_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/home/kevin/Qt5.14.2/5.14.2/gcc_64/mkspecs/features/exclusive_builds.prf \
 		/home/kevin/Qt5.14.2/5.14.2/gcc_64/mkspecs/features/toolchain.prf \
 		/home/kevin/Qt5.14.2/5.14.2/gcc_64/mkspecs/features/default_pre.prf \
@@ -840,6 +846,7 @@ Makefile: ../codecServer/codecServer.pro /home/kevin/Qt5.14.2/5.14.2/gcc_64/mksp
 /home/kevin/Qt5.14.2/5.14.2/gcc_64/mkspecs/features/qt_config.prf:
 /home/kevin/Qt5.14.2/5.14.2/gcc_64/mkspecs/linux-g++/qmake.conf:
 /home/kevin/Qt5.14.2/5.14.2/gcc_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /home/kevin/Qt5.14.2/5.14.2/gcc_64/mkspecs/features/exclusive_builds.prf:
 /home/kevin/Qt5.14.2/5.14.2/gcc_64/mkspecs/features/toolchain.prf:
 /home/kevin/Qt5.14.2/5.14.2/gcc_64/mkspecs/features/default_pre.prf:
@@ -876,8 +883,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /home/kevin/Qt5.14.2/5.14.2/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../codecServer/codecServer.h ../codecServer/muduo/base/AsyncLogging.h ../codecServer/muduo/base/Atomic.h ../codecServer/muduo/base/BlockingQueue.h ../codecServer/muduo/base/BoundedBlockingQueue.h ../codecServer/muduo/base/Condition.h ../codecServer/muduo/base/CountDownLatch.h ../codecServer/muduo/base/CurrentThread.h ../codecServer/muduo/base/Date.h ../codecServer/muduo/base/Exception.h ../codecServer/muduo/base/FileUtil.h ../codecServer/muduo/base/GzipFile.h ../codecServer/muduo/base/LogFile.h ../codecServer/muduo/base/LogStream.h ../codecServer/muduo/base/Logging.h ../codecServer/muduo/base/Mutex.h ../codecServer/muduo/base/ProcessInfo.h ../codecServer/muduo/base/Singleton.h ../codecServer/muduo/base/StringPiece.h ../codecServer/muduo/base/Thread.h ../codecServer/muduo/base/ThreadLocal.h ../codecServer/muduo/base/ThreadLocalSingleton.h ../codecServer/muduo/base/ThreadPool.h ../codecServer/muduo/base/TimeZone.h ../codecServer/muduo/base/Timestamp.h ../codecServer/muduo/base/Types.h ../codecServer/muduo/base/WeakCallback.h ../codecServer/muduo/base/copyable.h ../codecServer/muduo/base/noncopyable.h ../codecServer/muduo/net/Acceptor.h ../codecServer/muduo/net/Buffer.h ../codecServer/muduo/net/Callbacks.h ../codecServer/muduo/net/Channel.h ../codecServer/muduo/net/Connector.h ../codecServer/muduo/net/Endian.h ../codecServer/muduo/net/EventLoop.h ../codecServer/muduo/net/EventLoopThread.h ../codecServer/muduo/net/EventLoopThreadPool.h ../codecServer/muduo/net/InetAddress.h ../codecServer/muduo/net/Poller.h ../codecServer/muduo/net/Socket.h ../codecServer/muduo/net/SocketsOps.h ../codecServer/muduo/net/TcpClient.h ../codecServer/muduo/net/TcpConnection.h ../codecServer/muduo/net/TcpServer.h ../codecServer/muduo/net/Timer.h ../codecServer/muduo/net/TimerId.h ../codecServer/muduo/net/TimerQueue.h ../codecServer/muduo/net/ZlibStream.h ../codecServer/muduo/net/poller/EPollPoller.h ../codecServer/muduo/net/poller/PollPoller.h ../codecServer/server/socketServer.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../codecServer/main.cpp ../codecServer/codecServer.cpp ../codecServer/muduo/base/AsyncLogging.cc ../codecServer/muduo/base/Condition.cc ../codecServer/muduo/base/CountDownLatch.cc ../codecServer/muduo/base/CurrentThread.cc ../codecServer/muduo/base/Date.cc ../codecServer/muduo/base/Exception.cc ../codecServer/muduo/base/FileUtil.cc ../codecServer/muduo/base/LogFile.cc ../codecServer/muduo/base/LogStream.cc ../codecServer/muduo/base/Logging.cc ../codecServer/muduo/base/ProcessInfo.cc ../codecServer/muduo/base/Thread.cc ../codecServer/muduo/base/ThreadPool.cc ../codecServer/muduo/base/TimeZone.cc ../codecServer/muduo/base/Timestamp.cc ../codecServer/muduo/net/Acceptor.cc ../codecServer/muduo/net/Buffer.cc ../codecServer/muduo/net/Channel.cc ../codecServer/muduo/net/Connector.cc ../codecServer/muduo/net/EventLoop.cc ../codecServer/muduo/net/EventLoopThread.cc ../codecServer/muduo/net/EventLoopThreadPool.cc ../codecServer/muduo/net/InetAddress.cc ../codecServer/muduo/net/Poller.cc ../codecServer/muduo/net/Socket.cc ../codecServer/muduo/net/SocketsOps.cc ../codecServer/muduo/net/TcpClient.cc ../codecServer/muduo/net/TcpConnection.cc ../codecServer/muduo/net/TcpServer.cc ../codecServer/muduo/net/Timer.cc ../codecServer/muduo/net/TimerQueue.cc ../codecServer/muduo/net/poller/DefaultPoller.cc ../codecServer/muduo/net/poller/EPollPoller.cc ../codecServer/muduo/net/poller/PollPoller.cc ../codecServer/server/socketServer.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../codecServer/codecServer.h ../codecServer/muduo/base/AsyncLogging.h ../codecServer/muduo/base/Atomic.h ../codecServer/muduo/base/BlockingQueue.h ../codecServer/muduo/base/BoundedBlockingQueue.h ../codecServer/muduo/base/Condition.h ../codecServer/muduo/base/CountDownLatch.h ../codecServer/muduo/base/CurrentThread.h ../codecServer/muduo/base/Date.h ../codecServer/muduo/base/Exception.h ../codecServer/muduo/base/FileUtil.h ../codecServer/muduo/base/GzipFile.h ../codecServer/muduo/base/LogFile.h ../codecServer/muduo/base/LogStream.h ../codecServer/muduo/base/Logging.h ../codecServer/muduo/base/Mutex.h ../codecServer/muduo/base/ProcessInfo.h ../codecServer/muduo/base/Singleton.h ../codecServer/muduo/base/StringPiece.h ../codecServer/muduo/base/Thread.h ../codecServer/muduo/base/ThreadLocal.h ../codecServer/muduo/base/ThreadLocalSingleton.h ../codecServer/muduo/base/ThreadPool.h ../codecServer/muduo/base/TimeZone.h ../codecServer/muduo/base/Timestamp.h ../codecServer/muduo/base/Types.h ../codecServer/muduo/base/WeakCallback.h ../codecServer/muduo/base/copyable.h ../codecServer/muduo/base/noncopyable.h ../codecServer/muduo/net/Acceptor.h ../codecServer/muduo/net/Buffer.h ../codecServer/muduo/net/Callbacks.h ../codecServer/muduo/net/Channel.h ../codecServer/muduo/net/Connector.h ../codecServer/muduo/net/Endian.h ../codecServer/muduo/net/EventLoop.h ../codecServer/muduo/net/EventLoopThread.h ../codecServer/muduo/net/EventLoopThreadPool.h ../codecServer/muduo/net/InetAddress.h ../codecServer/muduo/net/Poller.h ../codecServer/muduo/net/Socket.h ../codecServer/muduo/net/SocketsOps.h ../codecServer/muduo/net/TcpClient.h ../codecServer/muduo/net/TcpConnection.h ../codecServer/muduo/net/TcpServer.h ../codecServer/muduo/net/Timer.h ../codecServer/muduo/net/TimerId.h ../codecServer/muduo/net/TimerQueue.h ../codecServer/muduo/net/ZlibStream.h ../codecServer/muduo/net/poller/EPollPoller.h ../codecServer/muduo/net/poller/PollPoller.h ../codecServer/server/connServer.h ../codecServer/server/socketServer.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../codecServer/main.cpp ../codecServer/codecServer.cpp ../codecServer/muduo/base/AsyncLogging.cc ../codecServer/muduo/base/Condition.cc ../codecServer/muduo/base/CountDownLatch.cc ../codecServer/muduo/base/CurrentThread.cc ../codecServer/muduo/base/Date.cc ../codecServer/muduo/base/Exception.cc ../codecServer/muduo/base/FileUtil.cc ../codecServer/muduo/base/LogFile.cc ../codecServer/muduo/base/LogStream.cc ../codecServer/muduo/base/Logging.cc ../codecServer/muduo/base/ProcessInfo.cc ../codecServer/muduo/base/Thread.cc ../codecServer/muduo/base/ThreadPool.cc ../codecServer/muduo/base/TimeZone.cc ../codecServer/muduo/base/Timestamp.cc ../codecServer/muduo/net/Acceptor.cc ../codecServer/muduo/net/Buffer.cc ../codecServer/muduo/net/Channel.cc ../codecServer/muduo/net/Connector.cc ../codecServer/muduo/net/EventLoop.cc ../codecServer/muduo/net/EventLoopThread.cc ../codecServer/muduo/net/EventLoopThreadPool.cc ../codecServer/muduo/net/InetAddress.cc ../codecServer/muduo/net/Poller.cc ../codecServer/muduo/net/Socket.cc ../codecServer/muduo/net/SocketsOps.cc ../codecServer/muduo/net/TcpClient.cc ../codecServer/muduo/net/TcpConnection.cc ../codecServer/muduo/net/TcpServer.cc ../codecServer/muduo/net/Timer.cc ../codecServer/muduo/net/TimerQueue.cc ../codecServer/muduo/net/poller/DefaultPoller.cc ../codecServer/muduo/net/poller/EPollPoller.cc ../codecServer/muduo/net/poller/PollPoller.cc ../codecServer/server/connServer.cpp ../codecServer/server/socketServer.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../codecServer/codecServer.ui $(DISTDIR)/
 
 
@@ -1029,6 +1036,172 @@ moc_codecServer.cpp: ../codecServer/codecServer.h \
 		../codecServer/muduo/base/Mutex.h \
 		../codecServer/muduo/base/CurrentThread.h \
 		../codecServer/muduo/base/Types.h \
+		../codecServer/server/connServer.h \
+		../codecServer/muduo/net/TcpServer.h \
+		../codecServer/muduo/net/TcpConnection.h \
+		../codecServer/muduo/base/StringPiece.h \
+		../codecServer/muduo/net/Callbacks.h \
+		../codecServer/muduo/base/Timestamp.h \
+		/home/code/boost_1_72_0/boost/operators.hpp \
+		/home/code/boost_1_72_0/boost/operators_v1.hpp \
+		/home/code/boost_1_72_0/boost/config.hpp \
+		/home/code/boost_1_72_0/boost/config/user.hpp \
+		/home/code/boost_1_72_0/boost/config/detail/select_compiler_config.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/nvcc.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/gcc_xml.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/cray.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/common_edg.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/comeau.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/pathscale.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/clang.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/intel.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/visualc.hpp \
+		/home/code/boost_1_72_0/boost/config/pragma_message.hpp \
+		/home/code/boost_1_72_0/boost/config/helper_macros.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/gcc.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/digitalmars.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/kai.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/sgi_mipspro.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/compaq_cxx.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/greenhills.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/codegear.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/borland.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/metrowerks.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/sunpro_cc.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/hp_acc.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/mpw.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/xlcpp_zos.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/xlcpp.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/vacpp.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/pgi.hpp \
+		/home/code/boost_1_72_0/boost/config/detail/select_stdlib_config.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/stlport.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/libcomo.hpp \
+		/home/code/boost_1_72_0/boost/config/no_tr1/utility.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/roguewave.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/libcpp.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/libstdcpp3.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/sgi.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/msl.hpp \
+		/home/code/boost_1_72_0/boost/config/detail/posix_features.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/xlcpp_zos.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/vacpp.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/modena.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/dinkumware.hpp \
+		/home/code/boost_1_72_0/boost/config/detail/select_platform_config.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/linux.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/bsd.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/solaris.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/irix.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/hpux.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/cygwin.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/win32.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/beos.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/macos.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/zos.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/aix.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/amigaos.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/qnxnto.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/vxworks.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/symbian.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/cray.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/vms.hpp \
+		/home/code/boost_1_72_0/boost/config/detail/suffix.hpp \
+		/home/code/boost_1_72_0/boost/detail/workaround.hpp \
+		/home/code/boost_1_72_0/boost/config/workaround.hpp \
+		/home/code/boost_1_72_0/boost/core/addressof.hpp \
+		../codecServer/muduo/net/Buffer.h \
+		../codecServer/muduo/net/Endian.h \
+		../codecServer/muduo/net/InetAddress.h \
+		/home/code/boost_1_72_0/boost/any.hpp \
+		/home/code/boost_1_72_0/boost/type_index.hpp \
+		/home/code/boost_1_72_0/boost/type_index/stl_type_index.hpp \
+		/home/code/boost_1_72_0/boost/type_index/type_index_facade.hpp \
+		/home/code/boost_1_72_0/boost/container_hash/hash_fwd.hpp \
+		/home/code/boost_1_72_0/boost/static_assert.hpp \
+		/home/code/boost_1_72_0/boost/throw_exception.hpp \
+		/home/code/boost_1_72_0/boost/exception/exception.hpp \
+		/home/code/boost_1_72_0/boost/current_function.hpp \
+		/home/code/boost_1_72_0/boost/core/demangle.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/conditional.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_const.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/integral_constant.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_reference.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_lvalue_reference.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_rvalue_reference.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_rvalue_reference_msvc10_fix.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_volatile.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/remove_cv.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/remove_reference.hpp \
+		/home/code/boost_1_72_0/boost/container_hash/hash.hpp \
+		/home/code/boost_1_72_0/boost/container_hash/detail/hash_float.hpp \
+		/home/code/boost_1_72_0/boost/container_hash/detail/float_functions.hpp \
+		/home/code/boost_1_72_0/boost/config/no_tr1/cmath.hpp \
+		/home/code/boost_1_72_0/boost/container_hash/detail/limits.hpp \
+		/home/code/boost_1_72_0/boost/limits.hpp \
+		/home/code/boost_1_72_0/boost/core/enable_if.hpp \
+		/home/code/boost_1_72_0/boost/integer/static_log2.hpp \
+		/home/code/boost_1_72_0/boost/integer_fwd.hpp \
+		/home/code/boost_1_72_0/boost/cstdint.hpp \
+		/home/code/boost_1_72_0/boost/assert.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_enum.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/intrinsics.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/config.hpp \
+		/home/code/boost_1_72_0/boost/version.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_same.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_void.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/add_reference.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_arithmetic.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_integral.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_floating_point.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_convertible.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_complete.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/declval.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/add_rvalue_reference.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_function.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_function_cxx_11.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_function_cxx_03.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_function_ptr_helper.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_function_ptr_tester.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/yes_no_type.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_function_msvc10_fix.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_array.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_abstract.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_class.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_union.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_scalar.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_pointer.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_member_pointer.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_member_function_pointer.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_member_function_pointer_cxx_11.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_member_function_pointer_cxx_03.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_mem_fun_pointer_impl.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_mem_fun_pointer_tester.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_polymorphic.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/add_lvalue_reference.hpp \
+		/home/code/boost_1_72_0/boost/container_hash/extensions.hpp \
+		/home/code/boost_1_72_0/boost/detail/container_fwd.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_signed.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/make_signed.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_unsigned.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/add_const.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/add_volatile.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/type_identity.hpp \
+		/home/code/boost_1_72_0/boost/type_index/detail/stl_register_class.hpp \
+		/home/code/boost_1_72_0/boost/type_index/ctti_type_index.hpp \
+		/home/code/boost_1_72_0/boost/type_index/detail/compile_time_type_info.hpp \
+		/home/code/boost_1_72_0/boost/preprocessor/facilities/expand.hpp \
+		/home/code/boost_1_72_0/boost/preprocessor/config/config.hpp \
+		/home/code/boost_1_72_0/boost/type_index/detail/ctti_register_class.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/decay.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/remove_bounds.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/remove_extent.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/add_pointer.hpp \
+		/home/code/boost_1_72_0/boost/utility/enable_if.hpp \
+		../codecServer/muduo/base/Logging.h \
+		../codecServer/muduo/base/LogStream.h \
+		../codecServer/muduo/net/EventLoop.h \
+		../codecServer/muduo/net/TimerId.h \
 		moc_predefs.h \
 		/home/kevin/Qt5.14.2/5.14.2/gcc_64/bin/moc
 	/home/kevin/Qt5.14.2/5.14.2/gcc_64/bin/moc $(DEFINES) --include /home/code/github/public/qt_linux/codecAndServer/codecMudSvr/build-codecServer-Desktop_Qt_5_14_2_GCC_64bit-Debug/moc_predefs.h -I/home/kevin/Qt5.14.2/5.14.2/gcc_64/mkspecs/linux-g++ -I/home/code/github/public/qt_linux/codecAndServer/codecMudSvr/codecServer -I/home/code/boost_1_72_0 -I/home/code/github/public/qt_linux/codecAndServer/codecMudSvr/codecServer/server -I/home/kevin/Qt5.14.2/5.14.2/gcc_64/include -I/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets -I/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui -I/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../codecServer/codecServer.h -o moc_codecServer.cpp
@@ -1170,6 +1343,172 @@ main.o: ../codecServer/main.cpp ../codecServer/codecServer.h \
 		../codecServer/muduo/base/Mutex.h \
 		../codecServer/muduo/base/CurrentThread.h \
 		../codecServer/muduo/base/Types.h \
+		../codecServer/server/connServer.h \
+		../codecServer/muduo/net/TcpServer.h \
+		../codecServer/muduo/net/TcpConnection.h \
+		../codecServer/muduo/base/StringPiece.h \
+		../codecServer/muduo/net/Callbacks.h \
+		../codecServer/muduo/base/Timestamp.h \
+		/home/code/boost_1_72_0/boost/operators.hpp \
+		/home/code/boost_1_72_0/boost/operators_v1.hpp \
+		/home/code/boost_1_72_0/boost/config.hpp \
+		/home/code/boost_1_72_0/boost/config/user.hpp \
+		/home/code/boost_1_72_0/boost/config/detail/select_compiler_config.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/nvcc.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/gcc_xml.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/cray.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/common_edg.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/comeau.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/pathscale.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/clang.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/intel.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/visualc.hpp \
+		/home/code/boost_1_72_0/boost/config/pragma_message.hpp \
+		/home/code/boost_1_72_0/boost/config/helper_macros.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/gcc.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/digitalmars.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/kai.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/sgi_mipspro.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/compaq_cxx.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/greenhills.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/codegear.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/borland.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/metrowerks.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/sunpro_cc.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/hp_acc.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/mpw.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/xlcpp_zos.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/xlcpp.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/vacpp.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/pgi.hpp \
+		/home/code/boost_1_72_0/boost/config/detail/select_stdlib_config.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/stlport.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/libcomo.hpp \
+		/home/code/boost_1_72_0/boost/config/no_tr1/utility.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/roguewave.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/libcpp.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/libstdcpp3.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/sgi.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/msl.hpp \
+		/home/code/boost_1_72_0/boost/config/detail/posix_features.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/xlcpp_zos.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/vacpp.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/modena.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/dinkumware.hpp \
+		/home/code/boost_1_72_0/boost/config/detail/select_platform_config.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/linux.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/bsd.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/solaris.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/irix.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/hpux.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/cygwin.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/win32.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/beos.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/macos.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/zos.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/aix.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/amigaos.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/qnxnto.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/vxworks.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/symbian.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/cray.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/vms.hpp \
+		/home/code/boost_1_72_0/boost/config/detail/suffix.hpp \
+		/home/code/boost_1_72_0/boost/detail/workaround.hpp \
+		/home/code/boost_1_72_0/boost/config/workaround.hpp \
+		/home/code/boost_1_72_0/boost/core/addressof.hpp \
+		../codecServer/muduo/net/Buffer.h \
+		../codecServer/muduo/net/Endian.h \
+		../codecServer/muduo/net/InetAddress.h \
+		/home/code/boost_1_72_0/boost/any.hpp \
+		/home/code/boost_1_72_0/boost/type_index.hpp \
+		/home/code/boost_1_72_0/boost/type_index/stl_type_index.hpp \
+		/home/code/boost_1_72_0/boost/type_index/type_index_facade.hpp \
+		/home/code/boost_1_72_0/boost/container_hash/hash_fwd.hpp \
+		/home/code/boost_1_72_0/boost/static_assert.hpp \
+		/home/code/boost_1_72_0/boost/throw_exception.hpp \
+		/home/code/boost_1_72_0/boost/exception/exception.hpp \
+		/home/code/boost_1_72_0/boost/current_function.hpp \
+		/home/code/boost_1_72_0/boost/core/demangle.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/conditional.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_const.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/integral_constant.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_reference.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_lvalue_reference.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_rvalue_reference.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_rvalue_reference_msvc10_fix.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_volatile.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/remove_cv.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/remove_reference.hpp \
+		/home/code/boost_1_72_0/boost/container_hash/hash.hpp \
+		/home/code/boost_1_72_0/boost/container_hash/detail/hash_float.hpp \
+		/home/code/boost_1_72_0/boost/container_hash/detail/float_functions.hpp \
+		/home/code/boost_1_72_0/boost/config/no_tr1/cmath.hpp \
+		/home/code/boost_1_72_0/boost/container_hash/detail/limits.hpp \
+		/home/code/boost_1_72_0/boost/limits.hpp \
+		/home/code/boost_1_72_0/boost/core/enable_if.hpp \
+		/home/code/boost_1_72_0/boost/integer/static_log2.hpp \
+		/home/code/boost_1_72_0/boost/integer_fwd.hpp \
+		/home/code/boost_1_72_0/boost/cstdint.hpp \
+		/home/code/boost_1_72_0/boost/assert.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_enum.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/intrinsics.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/config.hpp \
+		/home/code/boost_1_72_0/boost/version.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_same.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_void.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/add_reference.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_arithmetic.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_integral.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_floating_point.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_convertible.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_complete.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/declval.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/add_rvalue_reference.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_function.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_function_cxx_11.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_function_cxx_03.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_function_ptr_helper.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_function_ptr_tester.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/yes_no_type.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_function_msvc10_fix.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_array.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_abstract.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_class.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_union.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_scalar.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_pointer.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_member_pointer.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_member_function_pointer.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_member_function_pointer_cxx_11.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_member_function_pointer_cxx_03.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_mem_fun_pointer_impl.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_mem_fun_pointer_tester.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_polymorphic.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/add_lvalue_reference.hpp \
+		/home/code/boost_1_72_0/boost/container_hash/extensions.hpp \
+		/home/code/boost_1_72_0/boost/detail/container_fwd.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_signed.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/make_signed.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_unsigned.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/add_const.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/add_volatile.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/type_identity.hpp \
+		/home/code/boost_1_72_0/boost/type_index/detail/stl_register_class.hpp \
+		/home/code/boost_1_72_0/boost/type_index/ctti_type_index.hpp \
+		/home/code/boost_1_72_0/boost/type_index/detail/compile_time_type_info.hpp \
+		/home/code/boost_1_72_0/boost/preprocessor/facilities/expand.hpp \
+		/home/code/boost_1_72_0/boost/preprocessor/config/config.hpp \
+		/home/code/boost_1_72_0/boost/type_index/detail/ctti_register_class.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/decay.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/remove_bounds.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/remove_extent.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/add_pointer.hpp \
+		/home/code/boost_1_72_0/boost/utility/enable_if.hpp \
+		../codecServer/muduo/base/Logging.h \
+		../codecServer/muduo/base/LogStream.h \
+		../codecServer/muduo/net/EventLoop.h \
+		../codecServer/muduo/net/TimerId.h \
 		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/QApplication \
 		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qapplication.h \
 		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qcoreapplication.h \
@@ -1295,55 +1634,11 @@ codecServer.o: ../codecServer/codecServer.cpp ../codecServer/codecServer.h \
 		../codecServer/muduo/base/Mutex.h \
 		../codecServer/muduo/base/CurrentThread.h \
 		../codecServer/muduo/base/Types.h \
-		ui_codecServer.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/QVariant \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/QApplication \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qapplication.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qcoreapplication.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qeventloop.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qguiapplication.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qinputmethod.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/QHeaderView \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qheaderview.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qabstractitemview.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qabstractscrollarea.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qframe.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qabstractitemmodel.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qitemselectionmodel.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qstyleoption.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qabstractspinbox.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qvalidator.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qregularexpression.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qicon.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qslider.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qabstractslider.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qstyle.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qtabbar.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qtabwidget.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qrubberband.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/QLabel \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qlabel.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/QLineEdit \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qlineedit.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qtextcursor.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qtextformat.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qpen.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qtextoption.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/QPushButton \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qpushbutton.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qabstractbutton.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/QTabWidget \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/QTextBrowser \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qtextbrowser.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qtextedit.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qtextdocument.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/QTreeView \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qtreeview.h \
-		../codecServer/muduo/base/Logging.h \
-		../codecServer/muduo/base/LogStream.h \
+		../codecServer/server/connServer.h \
+		../codecServer/muduo/net/TcpServer.h \
+		../codecServer/muduo/net/TcpConnection.h \
 		../codecServer/muduo/base/StringPiece.h \
+		../codecServer/muduo/net/Callbacks.h \
 		../codecServer/muduo/base/Timestamp.h \
 		/home/code/boost_1_72_0/boost/operators.hpp \
 		/home/code/boost_1_72_0/boost/operators_v1.hpp \
@@ -1412,7 +1707,145 @@ codecServer.o: ../codecServer/codecServer.cpp ../codecServer/codecServer.h \
 		/home/code/boost_1_72_0/boost/config/detail/suffix.hpp \
 		/home/code/boost_1_72_0/boost/detail/workaround.hpp \
 		/home/code/boost_1_72_0/boost/config/workaround.hpp \
-		/home/code/boost_1_72_0/boost/core/addressof.hpp
+		/home/code/boost_1_72_0/boost/core/addressof.hpp \
+		../codecServer/muduo/net/Buffer.h \
+		../codecServer/muduo/net/Endian.h \
+		../codecServer/muduo/net/InetAddress.h \
+		/home/code/boost_1_72_0/boost/any.hpp \
+		/home/code/boost_1_72_0/boost/type_index.hpp \
+		/home/code/boost_1_72_0/boost/type_index/stl_type_index.hpp \
+		/home/code/boost_1_72_0/boost/type_index/type_index_facade.hpp \
+		/home/code/boost_1_72_0/boost/container_hash/hash_fwd.hpp \
+		/home/code/boost_1_72_0/boost/static_assert.hpp \
+		/home/code/boost_1_72_0/boost/throw_exception.hpp \
+		/home/code/boost_1_72_0/boost/exception/exception.hpp \
+		/home/code/boost_1_72_0/boost/current_function.hpp \
+		/home/code/boost_1_72_0/boost/core/demangle.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/conditional.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_const.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/integral_constant.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_reference.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_lvalue_reference.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_rvalue_reference.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_rvalue_reference_msvc10_fix.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_volatile.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/remove_cv.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/remove_reference.hpp \
+		/home/code/boost_1_72_0/boost/container_hash/hash.hpp \
+		/home/code/boost_1_72_0/boost/container_hash/detail/hash_float.hpp \
+		/home/code/boost_1_72_0/boost/container_hash/detail/float_functions.hpp \
+		/home/code/boost_1_72_0/boost/config/no_tr1/cmath.hpp \
+		/home/code/boost_1_72_0/boost/container_hash/detail/limits.hpp \
+		/home/code/boost_1_72_0/boost/limits.hpp \
+		/home/code/boost_1_72_0/boost/core/enable_if.hpp \
+		/home/code/boost_1_72_0/boost/integer/static_log2.hpp \
+		/home/code/boost_1_72_0/boost/integer_fwd.hpp \
+		/home/code/boost_1_72_0/boost/cstdint.hpp \
+		/home/code/boost_1_72_0/boost/assert.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_enum.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/intrinsics.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/config.hpp \
+		/home/code/boost_1_72_0/boost/version.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_same.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_void.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/add_reference.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_arithmetic.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_integral.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_floating_point.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_convertible.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_complete.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/declval.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/add_rvalue_reference.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_function.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_function_cxx_11.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_function_cxx_03.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_function_ptr_helper.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_function_ptr_tester.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/yes_no_type.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_function_msvc10_fix.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_array.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_abstract.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_class.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_union.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_scalar.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_pointer.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_member_pointer.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_member_function_pointer.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_member_function_pointer_cxx_11.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_member_function_pointer_cxx_03.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_mem_fun_pointer_impl.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_mem_fun_pointer_tester.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_polymorphic.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/add_lvalue_reference.hpp \
+		/home/code/boost_1_72_0/boost/container_hash/extensions.hpp \
+		/home/code/boost_1_72_0/boost/detail/container_fwd.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_signed.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/make_signed.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_unsigned.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/add_const.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/add_volatile.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/type_identity.hpp \
+		/home/code/boost_1_72_0/boost/type_index/detail/stl_register_class.hpp \
+		/home/code/boost_1_72_0/boost/type_index/ctti_type_index.hpp \
+		/home/code/boost_1_72_0/boost/type_index/detail/compile_time_type_info.hpp \
+		/home/code/boost_1_72_0/boost/preprocessor/facilities/expand.hpp \
+		/home/code/boost_1_72_0/boost/preprocessor/config/config.hpp \
+		/home/code/boost_1_72_0/boost/type_index/detail/ctti_register_class.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/decay.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/remove_bounds.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/remove_extent.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/add_pointer.hpp \
+		/home/code/boost_1_72_0/boost/utility/enable_if.hpp \
+		../codecServer/muduo/base/Logging.h \
+		../codecServer/muduo/base/LogStream.h \
+		../codecServer/muduo/net/EventLoop.h \
+		../codecServer/muduo/net/TimerId.h \
+		ui_codecServer.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/QVariant \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/QApplication \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qapplication.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qeventloop.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qguiapplication.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qinputmethod.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/QHeaderView \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qheaderview.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qabstractitemview.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qframe.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qstyleoption.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qvalidator.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qregularexpression.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qicon.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qslider.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qabstractslider.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qstyle.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qtabbar.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qtabwidget.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qrubberband.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/QLabel \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qlabel.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/QLineEdit \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qlineedit.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qtextcursor.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qtextformat.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qpen.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qtextoption.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/QPushButton \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qpushbutton.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/QTabWidget \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/QTextBrowser \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qtextbrowser.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qtextedit.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qtextdocument.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/QTreeView \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qtreeview.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o codecServer.o ../codecServer/codecServer.cpp
 
 AsyncLogging.o: ../codecServer/muduo/base/AsyncLogging.cc ../codecServer/muduo/base/AsyncLogging.h \
@@ -4904,6 +5337,183 @@ PollPoller.o: ../codecServer/muduo/net/poller/PollPoller.cc ../codecServer/muduo
 		../codecServer/muduo/base/StringPiece.h \
 		../codecServer/muduo/net/Channel.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o PollPoller.o ../codecServer/muduo/net/poller/PollPoller.cc
+
+connServer.o: ../codecServer/server/connServer.cpp ../codecServer/server/connServer.h \
+		../codecServer/muduo/net/TcpServer.h \
+		../codecServer/muduo/base/Atomic.h \
+		../codecServer/muduo/base/noncopyable.h \
+		../codecServer/muduo/base/Types.h \
+		../codecServer/muduo/net/TcpConnection.h \
+		../codecServer/muduo/base/StringPiece.h \
+		../codecServer/muduo/net/Callbacks.h \
+		../codecServer/muduo/base/Timestamp.h \
+		../codecServer/muduo/base/copyable.h \
+		/home/code/boost_1_72_0/boost/operators.hpp \
+		/home/code/boost_1_72_0/boost/operators_v1.hpp \
+		/home/code/boost_1_72_0/boost/config.hpp \
+		/home/code/boost_1_72_0/boost/config/user.hpp \
+		/home/code/boost_1_72_0/boost/config/detail/select_compiler_config.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/nvcc.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/gcc_xml.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/cray.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/common_edg.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/comeau.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/pathscale.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/clang.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/intel.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/visualc.hpp \
+		/home/code/boost_1_72_0/boost/config/pragma_message.hpp \
+		/home/code/boost_1_72_0/boost/config/helper_macros.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/gcc.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/digitalmars.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/kai.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/sgi_mipspro.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/compaq_cxx.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/greenhills.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/codegear.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/borland.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/metrowerks.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/sunpro_cc.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/hp_acc.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/mpw.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/xlcpp_zos.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/xlcpp.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/vacpp.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/pgi.hpp \
+		/home/code/boost_1_72_0/boost/config/detail/select_stdlib_config.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/stlport.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/libcomo.hpp \
+		/home/code/boost_1_72_0/boost/config/no_tr1/utility.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/roguewave.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/libcpp.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/libstdcpp3.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/sgi.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/msl.hpp \
+		/home/code/boost_1_72_0/boost/config/detail/posix_features.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/xlcpp_zos.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/vacpp.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/modena.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/dinkumware.hpp \
+		/home/code/boost_1_72_0/boost/config/detail/select_platform_config.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/linux.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/bsd.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/solaris.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/irix.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/hpux.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/cygwin.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/win32.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/beos.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/macos.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/zos.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/aix.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/amigaos.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/qnxnto.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/vxworks.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/symbian.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/cray.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/vms.hpp \
+		/home/code/boost_1_72_0/boost/config/detail/suffix.hpp \
+		/home/code/boost_1_72_0/boost/detail/workaround.hpp \
+		/home/code/boost_1_72_0/boost/config/workaround.hpp \
+		/home/code/boost_1_72_0/boost/core/addressof.hpp \
+		../codecServer/muduo/net/Buffer.h \
+		../codecServer/muduo/net/Endian.h \
+		../codecServer/muduo/net/InetAddress.h \
+		/home/code/boost_1_72_0/boost/any.hpp \
+		/home/code/boost_1_72_0/boost/type_index.hpp \
+		/home/code/boost_1_72_0/boost/type_index/stl_type_index.hpp \
+		/home/code/boost_1_72_0/boost/type_index/type_index_facade.hpp \
+		/home/code/boost_1_72_0/boost/container_hash/hash_fwd.hpp \
+		/home/code/boost_1_72_0/boost/static_assert.hpp \
+		/home/code/boost_1_72_0/boost/throw_exception.hpp \
+		/home/code/boost_1_72_0/boost/exception/exception.hpp \
+		/home/code/boost_1_72_0/boost/current_function.hpp \
+		/home/code/boost_1_72_0/boost/core/demangle.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/conditional.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_const.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/integral_constant.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_reference.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_lvalue_reference.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_rvalue_reference.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_rvalue_reference_msvc10_fix.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_volatile.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/remove_cv.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/remove_reference.hpp \
+		/home/code/boost_1_72_0/boost/container_hash/hash.hpp \
+		/home/code/boost_1_72_0/boost/container_hash/detail/hash_float.hpp \
+		/home/code/boost_1_72_0/boost/container_hash/detail/float_functions.hpp \
+		/home/code/boost_1_72_0/boost/config/no_tr1/cmath.hpp \
+		/home/code/boost_1_72_0/boost/container_hash/detail/limits.hpp \
+		/home/code/boost_1_72_0/boost/limits.hpp \
+		/home/code/boost_1_72_0/boost/core/enable_if.hpp \
+		/home/code/boost_1_72_0/boost/integer/static_log2.hpp \
+		/home/code/boost_1_72_0/boost/integer_fwd.hpp \
+		/home/code/boost_1_72_0/boost/cstdint.hpp \
+		/home/code/boost_1_72_0/boost/assert.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_enum.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/intrinsics.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/config.hpp \
+		/home/code/boost_1_72_0/boost/version.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_same.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_void.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/add_reference.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_arithmetic.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_integral.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_floating_point.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_convertible.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_complete.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/declval.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/add_rvalue_reference.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_function.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_function_cxx_11.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_function_cxx_03.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_function_ptr_helper.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_function_ptr_tester.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/yes_no_type.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_function_msvc10_fix.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_array.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_abstract.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_class.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_union.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_scalar.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_pointer.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_member_pointer.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_member_function_pointer.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_member_function_pointer_cxx_11.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_member_function_pointer_cxx_03.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_mem_fun_pointer_impl.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/detail/is_mem_fun_pointer_tester.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_polymorphic.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/add_lvalue_reference.hpp \
+		/home/code/boost_1_72_0/boost/container_hash/extensions.hpp \
+		/home/code/boost_1_72_0/boost/detail/container_fwd.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_signed.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/make_signed.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/is_unsigned.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/add_const.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/add_volatile.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/type_identity.hpp \
+		/home/code/boost_1_72_0/boost/type_index/detail/stl_register_class.hpp \
+		/home/code/boost_1_72_0/boost/type_index/ctti_type_index.hpp \
+		/home/code/boost_1_72_0/boost/type_index/detail/compile_time_type_info.hpp \
+		/home/code/boost_1_72_0/boost/preprocessor/facilities/expand.hpp \
+		/home/code/boost_1_72_0/boost/preprocessor/config/config.hpp \
+		/home/code/boost_1_72_0/boost/type_index/detail/ctti_register_class.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/decay.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/remove_bounds.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/remove_extent.hpp \
+		/home/code/boost_1_72_0/boost/type_traits/add_pointer.hpp \
+		/home/code/boost_1_72_0/boost/utility/enable_if.hpp \
+		../codecServer/muduo/base/Logging.h \
+		../codecServer/muduo/base/LogStream.h \
+		../codecServer/muduo/base/Thread.h \
+		../codecServer/muduo/base/CountDownLatch.h \
+		../codecServer/muduo/base/Condition.h \
+		../codecServer/muduo/base/Mutex.h \
+		../codecServer/muduo/base/CurrentThread.h \
+		../codecServer/muduo/net/EventLoop.h \
+		../codecServer/muduo/net/TimerId.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o connServer.o ../codecServer/server/connServer.cpp
 
 socketServer.o: ../codecServer/server/socketServer.cpp ../codecServer/server/socketServer.h \
 		../codecServer/muduo/base/Thread.h \
