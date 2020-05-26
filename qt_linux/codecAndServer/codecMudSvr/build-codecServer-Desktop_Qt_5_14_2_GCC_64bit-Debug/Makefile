@@ -1800,52 +1800,7 @@ codecServer.o: ../codecServer/codecServer.cpp ../codecServer/codecServer.h \
 		../codecServer/muduo/base/LogStream.h \
 		../codecServer/muduo/net/EventLoop.h \
 		../codecServer/muduo/net/TimerId.h \
-		ui_codecServer.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/QVariant \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/QApplication \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qapplication.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qcoreapplication.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qeventloop.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qguiapplication.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qinputmethod.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/QHeaderView \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qheaderview.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qabstractitemview.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qabstractscrollarea.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qframe.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qabstractitemmodel.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qitemselectionmodel.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qstyleoption.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qabstractspinbox.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qvalidator.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qregularexpression.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qicon.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qslider.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qabstractslider.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qstyle.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qtabbar.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qtabwidget.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qrubberband.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/QLabel \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qlabel.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/QLineEdit \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qlineedit.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qtextcursor.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qtextformat.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qpen.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qtextoption.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/QPushButton \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qpushbutton.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qabstractbutton.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/QTabWidget \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/QTextBrowser \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qtextbrowser.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qtextedit.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qtextdocument.h \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/QTreeView \
-		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qtreeview.h
+		ui_codecServer.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o codecServer.o ../codecServer/codecServer.cpp
 
 AsyncLogging.o: ../codecServer/muduo/base/AsyncLogging.cc ../codecServer/muduo/base/AsyncLogging.h \
