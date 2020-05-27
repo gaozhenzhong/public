@@ -1,5 +1,5 @@
 #include "connServer.h"
-connServer::tcpServer::tcpServer(InetAddress & _listenAddr,connServer* _cServer)
+connServer::tcpSvrAndLoop::tcpSvrAndLoop(InetAddress & _listenAddr,connServer* _cServer)
     :server_(&loop_, _listenAddr, "connServer")
 {
     server_.setConnectionCallback(
@@ -11,8 +11,7 @@ connServer::tcpServer::tcpServer(InetAddress & _listenAddr,connServer* _cServer)
 }
 
 connServer::connServer(std::string _ip,int _port)
-    : tcpServer_(NULL),
-      ip_(_ip),
+    : ip_(_ip),
       port_(_port),
       listenAddr_(_port, false, false),
       thread_(std::bind(&connServer::csvrThread,this))
@@ -23,7 +22,7 @@ connServer::connServer(std::string _ip,int _port)
 
 connServer::~connServer(void)
 {
-    if(NULL != tcpServer_)    tcpServer_->quit();
+    tcpSvrQuit();
     thread_.join();
     LOG_INFO << "end :pid = " << getpid() << ", tid = " << CurrentThread::tid();
 }
@@ -31,9 +30,12 @@ connServer::~connServer(void)
 void connServer::csvrThread(void)
 {
     LOG_INFO << "start :pid = " << getpid() << ", tid = " << CurrentThread::tid();
-    tcpServer_ = new connServer::tcpServer(listenAddr_,this);
-    tcpServer_->loop();
-    delete  tcpServer_;
+    std::unique_ptr<connServer::tcpSvrAndLoop> tcpSvrPtr(new connServer::tcpSvrAndLoop(listenAddr_,this));
+    //tcpServer_=std::unique_ptr<connServer::tcpServer> (new connServer::tcpServer(listenAddr_,this));
+    tcpSvrQuit = std::bind(&connServer::tcpSvrAndLoop::quit,tcpSvrPtr.get());
+
+    tcpSvrPtr->loop();
+
     LOG_INFO << "end :pid = " << getpid() << ", tid = " << CurrentThread::tid();
 }
 
