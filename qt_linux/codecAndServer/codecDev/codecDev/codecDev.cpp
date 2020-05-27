@@ -5,6 +5,37 @@
 #include <qvalidator.h>
 #include <QHostAddress>
 #include <QAbstractSocket>
+enum  orderID
+{
+    REPLAY,
+    REGIST,
+}  ;
+
+struct registOrder
+{
+    int devType;
+}    ;
+
+codecDev::orderData::orderData(char id,char* _data,char _size)
+{
+#if 0
+    order_.insert(order_.end(),_size+10);
+    order_.insert(order_.end(),id);
+    for(int n = 0 ;n<_size;n++) order_.insert(order_.end(),_data[n]);
+    order_.insert(order_.end(),'5');
+    order_.insert(order_.end(),'5');
+    order_.insert(order_.end(),'F');
+    order_.insert(order_.end(),'F');
+    order_.insert(order_.end(),'5');
+    order_.insert(order_.end(),'5');
+    order_.insert(order_.end(),'F');
+    order_.insert(order_.end(),'F');
+#else
+    //std::memcpy(order_,"FF55FF55",sizeof("FF55FF55"));
+
+#endif
+}
+
 codecDev::codecDev(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::codecDev)
@@ -39,7 +70,12 @@ void codecDev::on_conPushButton_clicked()
     connect(tcpSocket.get(), &QTcpSocket::connected,
         [=]()
         {
+            struct registOrder data;
+            data.devType   = 1;
+            codecDev::orderData order(static_cast<char>(REGIST) ,reinterpret_cast<char*>(&data),static_cast<char>(sizeof(data)));
+            //tcpSocket->write(codecDev::orderData.order_.,);
             ui->logTextBrowser->append(QString("%1 : %2 : connect success").arg(ip).arg(port));
+
         }
     );
 

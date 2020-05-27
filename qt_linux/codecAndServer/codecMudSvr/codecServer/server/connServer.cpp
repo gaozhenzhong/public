@@ -45,7 +45,8 @@ void connServer::onConnection(const TcpConnectionPtr& conn)
         << conn->localAddress().toIpPort() << " is "
         << (conn->connected() ? "UP" : "DOWN");
     LOG_INFO << conn->getTcpInfoString();
-    conn->send("hello\n");
+    //conn->send("hello\n");
+
 }
 
 void connServer::onMessage(const TcpConnectionPtr& conn, Buffer* buf, Timestamp time)
