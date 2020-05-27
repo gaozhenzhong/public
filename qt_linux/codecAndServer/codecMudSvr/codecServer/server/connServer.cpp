@@ -1,34 +1,48 @@
 #include "connServer.h"
-
-connServer::connServer(std::string _ip,int _port)
-    : ip_(_ip),
-      port_(_port),
-      listenAddr_(_port, false, false),
-      server_(&loop_, listenAddr_, "connServer"),
-      thread_(std::bind(&EventLoop::loop,&loop_))
+connServer::tcpServer::tcpServer(InetAddress & _listenAddr,connServer* _cServer)
+    :server_(&loop_, _listenAddr, "connServer")
 {
-    LOG_INFO << "pid = " << getpid() << ", tid = " << CurrentThread::tid();
-    LOG_INFO << "sizeof TcpConnection = " << sizeof(TcpConnection);
     server_.setConnectionCallback(
-        std::bind(&connServer::onConnection, this, _1));
+        std::bind(&connServer::onConnection, _cServer, _1));
     server_.setMessageCallback(
-        std::bind(&connServer::onMessage, this, _1, _2, _3));
+        std::bind(&connServer::onMessage, _cServer, _1, _2, _3));
     server_.setThreadNum(numThreads);
     server_.start();
+}
+
+connServer::connServer(std::string _ip,int _port)
+    : tcpServer_(NULL),
+      ip_(_ip),
+      port_(_port),
+      listenAddr_(_port, false, false),
+      thread_(std::bind(&connServer::csvrThread,this))
+{
+    LOG_INFO << "start :pid = " << getpid() << ", tid = " << CurrentThread::tid();
     thread_.start();
 }
 
 connServer::~connServer(void)
 {
-    loop_.quit();
+    if(NULL != tcpServer_)    tcpServer_->quit();
+    thread_.join();
+    LOG_INFO << "end :pid = " << getpid() << ", tid = " << CurrentThread::tid();
 }
+
+void connServer::csvrThread(void)
+{
+    LOG_INFO << "start :pid = " << getpid() << ", tid = " << CurrentThread::tid();
+    tcpServer_ = new connServer::tcpServer(listenAddr_,this);
+    tcpServer_->loop();
+    delete  tcpServer_;
+    LOG_INFO << "end :pid = " << getpid() << ", tid = " << CurrentThread::tid();
+}
+
 void connServer::onConnection(const TcpConnectionPtr& conn)
 {
     LOG_TRACE << conn->peerAddress().toIpPort() << " -> "
         << conn->localAddress().toIpPort() << " is "
         << (conn->connected() ? "UP" : "DOWN");
     LOG_INFO << conn->getTcpInfoString();
-
     conn->send("hello\n");
 }
 

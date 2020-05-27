@@ -8,7 +8,7 @@ codecServer::codecServer(QWidget *parent)
 {
 //init muduo::Logger
     uiLogTimeZone = std::unique_ptr<muduo::TimeZone>(new muduo::TimeZone(8*3600,"china"));
-    muduo::Logger::setLogLevel(muduo::Logger::TRACE);
+    muduo::Logger::setLogLevel(muduo::Logger::DEBUG);
     muduo::Logger::setTimeZone(*uiLogTimeZone.get());
 // start ui
     ui->setupUi(this);
@@ -26,17 +26,20 @@ void codecServer::on_serverStartButton_clicked()
     if(NULL == connServer_)
     {
         serverPort = ui->PortLineEdit->text().toInt(&bRst);
-        serverIP = ui->IpLineEdit->text();
+        serverIP   = ui->IpLineEdit->text();
 
         connServer_=new connServer(serverIP.toStdString(),serverPort);
 
-        ui->logTextBrowser->append(QString("%1 : %2 : creat success").arg(serverIP).arg(serverPort));
+        ui->logTextBrowser->append(QString("%1 : %2 :server connet success").arg(serverIP).arg(serverPort));
         ui->serverStartButton->setText("stopServer");
     }
     else
     {
         delete  connServer_;
+
         connServer_ = NULL;
+
+        ui->logTextBrowser->append(QString("%1 : %2 :server disconnet success").arg(serverIP).arg(serverPort));
         ui->serverStartButton->setText("ConnServer");
     }
 #ifdef SOCKT_SERVER_CLASS
