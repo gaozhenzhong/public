@@ -53,10 +53,14 @@ void connServer::onMessage(const TcpConnectionPtr& conn, Buffer* buf, Timestamp 
 {
     string msg(buf->retrieveAllAsString());
     LOG_TRACE << conn->name() << " recv " << msg.size() << " bytes at " << time.toString();
+#if 1
     if (msg == "exit\n")
     {
       conn->send("bye\n");
       conn->shutdown();
     }
     conn->send(msg);
+#else
+
+#endif
 }

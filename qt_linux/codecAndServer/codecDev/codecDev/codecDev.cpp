@@ -11,10 +11,12 @@ enum  orderID
     REGIST,
 }  ;
 
+
+
 struct registOrder
 {
     int devType;
-}    ;
+} ;
 
 codecDev::orderData::orderData(char id,char* _data,char _size)
     :len_( 0 )
