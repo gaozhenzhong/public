@@ -38,7 +38,12 @@ void connServer::csvrThread(void)
 
     LOG_INFO << "end :pid = " << getpid() << ", tid = " << CurrentThread::tid();
 }
+void testFunctionnst(const TcpConnectionPtr& conn, Buffer* buf, Timestamp time)
+{
+    string msg(buf->retrieveAllAsString());
+    LOG_DEBUG << conn->name() << " recv " << msg.size() << " bytes at " << time.toString();
 
+}
 void connServer::onConnection(const TcpConnectionPtr& conn)
 {
     LOG_TRACE << conn->peerAddress().toIpPort() << " -> "
@@ -52,8 +57,8 @@ void connServer::onConnection(const TcpConnectionPtr& conn)
 void connServer::onMessage(const TcpConnectionPtr& conn, Buffer* buf, Timestamp time)
 {
     string msg(buf->retrieveAllAsString());
-    LOG_TRACE << conn->name() << " recv " << msg.size() << " bytes at " << time.toString();
-#if 1
+    LOG_DEBUG << conn->name() << " recv " << msg.size() << " bytes at " << time.toString();
+#if 0
     if (msg == "exit\n")
     {
       conn->send("bye\n");
@@ -62,5 +67,6 @@ void connServer::onMessage(const TcpConnectionPtr& conn, Buffer* buf, Timestamp 
     conn->send(msg);
 #else
 
+    conn->setMessageCallback(testFunctionnst);//如果注册了回调，怎server的函数不在被调用
 #endif
 }
