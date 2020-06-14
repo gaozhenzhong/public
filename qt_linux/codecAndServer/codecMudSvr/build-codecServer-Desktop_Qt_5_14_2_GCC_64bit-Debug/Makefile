@@ -88,6 +88,7 @@ SOURCES       = ../codecServer/main.cpp \
 		../codecServer/muduo/net/poller/DefaultPoller.cc \
 		../codecServer/muduo/net/poller/EPollPoller.cc \
 		../codecServer/muduo/net/poller/PollPoller.cc \
+		../codecServer/order/BufToOrder.cpp \
 		../codecServer/server/connServer.cpp \
 		../codecServer/server/socketServer.cpp moc_codecServer.cpp
 OBJECTS       = main.o \
@@ -126,6 +127,7 @@ OBJECTS       = main.o \
 		DefaultPoller.o \
 		EPollPoller.o \
 		PollPoller.o \
+		BufToOrder.o \
 		connServer.o \
 		socketServer.o \
 		moc_codecServer.o
@@ -393,6 +395,7 @@ DIST          = ../codecServer/muduo/net/BUILD.bazel \
 		../codecServer/muduo/net/ZlibStream.h \
 		../codecServer/muduo/net/poller/EPollPoller.h \
 		../codecServer/muduo/net/poller/PollPoller.h \
+		../codecServer/order/BufToOrder.h \
 		../codecServer/server/connServer.h \
 		../codecServer/server/socketServer.h ../codecServer/main.cpp \
 		../codecServer/codecServer.cpp \
@@ -430,6 +433,7 @@ DIST          = ../codecServer/muduo/net/BUILD.bazel \
 		../codecServer/muduo/net/poller/DefaultPoller.cc \
 		../codecServer/muduo/net/poller/EPollPoller.cc \
 		../codecServer/muduo/net/poller/PollPoller.cc \
+		../codecServer/order/BufToOrder.cpp \
 		../codecServer/server/connServer.cpp \
 		../codecServer/server/socketServer.cpp
 QMAKE_TARGET  = codecServer
@@ -883,8 +887,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /home/kevin/Qt5.14.2/5.14.2/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../codecServer/codecServer.h ../codecServer/muduo/base/AsyncLogging.h ../codecServer/muduo/base/Atomic.h ../codecServer/muduo/base/BlockingQueue.h ../codecServer/muduo/base/BoundedBlockingQueue.h ../codecServer/muduo/base/Condition.h ../codecServer/muduo/base/CountDownLatch.h ../codecServer/muduo/base/CurrentThread.h ../codecServer/muduo/base/Date.h ../codecServer/muduo/base/Exception.h ../codecServer/muduo/base/FileUtil.h ../codecServer/muduo/base/GzipFile.h ../codecServer/muduo/base/LogFile.h ../codecServer/muduo/base/LogStream.h ../codecServer/muduo/base/Logging.h ../codecServer/muduo/base/Mutex.h ../codecServer/muduo/base/ProcessInfo.h ../codecServer/muduo/base/Singleton.h ../codecServer/muduo/base/StringPiece.h ../codecServer/muduo/base/Thread.h ../codecServer/muduo/base/ThreadLocal.h ../codecServer/muduo/base/ThreadLocalSingleton.h ../codecServer/muduo/base/ThreadPool.h ../codecServer/muduo/base/TimeZone.h ../codecServer/muduo/base/Timestamp.h ../codecServer/muduo/base/Types.h ../codecServer/muduo/base/WeakCallback.h ../codecServer/muduo/base/copyable.h ../codecServer/muduo/base/noncopyable.h ../codecServer/muduo/net/Acceptor.h ../codecServer/muduo/net/Buffer.h ../codecServer/muduo/net/Callbacks.h ../codecServer/muduo/net/Channel.h ../codecServer/muduo/net/Connector.h ../codecServer/muduo/net/Endian.h ../codecServer/muduo/net/EventLoop.h ../codecServer/muduo/net/EventLoopThread.h ../codecServer/muduo/net/EventLoopThreadPool.h ../codecServer/muduo/net/InetAddress.h ../codecServer/muduo/net/Poller.h ../codecServer/muduo/net/Socket.h ../codecServer/muduo/net/SocketsOps.h ../codecServer/muduo/net/TcpClient.h ../codecServer/muduo/net/TcpConnection.h ../codecServer/muduo/net/TcpServer.h ../codecServer/muduo/net/Timer.h ../codecServer/muduo/net/TimerId.h ../codecServer/muduo/net/TimerQueue.h ../codecServer/muduo/net/ZlibStream.h ../codecServer/muduo/net/poller/EPollPoller.h ../codecServer/muduo/net/poller/PollPoller.h ../codecServer/server/connServer.h ../codecServer/server/socketServer.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../codecServer/main.cpp ../codecServer/codecServer.cpp ../codecServer/muduo/base/AsyncLogging.cc ../codecServer/muduo/base/Condition.cc ../codecServer/muduo/base/CountDownLatch.cc ../codecServer/muduo/base/CurrentThread.cc ../codecServer/muduo/base/Date.cc ../codecServer/muduo/base/Exception.cc ../codecServer/muduo/base/FileUtil.cc ../codecServer/muduo/base/LogFile.cc ../codecServer/muduo/base/LogStream.cc ../codecServer/muduo/base/Logging.cc ../codecServer/muduo/base/ProcessInfo.cc ../codecServer/muduo/base/Thread.cc ../codecServer/muduo/base/ThreadPool.cc ../codecServer/muduo/base/TimeZone.cc ../codecServer/muduo/base/Timestamp.cc ../codecServer/muduo/net/Acceptor.cc ../codecServer/muduo/net/Buffer.cc ../codecServer/muduo/net/Channel.cc ../codecServer/muduo/net/Connector.cc ../codecServer/muduo/net/EventLoop.cc ../codecServer/muduo/net/EventLoopThread.cc ../codecServer/muduo/net/EventLoopThreadPool.cc ../codecServer/muduo/net/InetAddress.cc ../codecServer/muduo/net/Poller.cc ../codecServer/muduo/net/Socket.cc ../codecServer/muduo/net/SocketsOps.cc ../codecServer/muduo/net/TcpClient.cc ../codecServer/muduo/net/TcpConnection.cc ../codecServer/muduo/net/TcpServer.cc ../codecServer/muduo/net/Timer.cc ../codecServer/muduo/net/TimerQueue.cc ../codecServer/muduo/net/poller/DefaultPoller.cc ../codecServer/muduo/net/poller/EPollPoller.cc ../codecServer/muduo/net/poller/PollPoller.cc ../codecServer/server/connServer.cpp ../codecServer/server/socketServer.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../codecServer/codecServer.h ../codecServer/muduo/base/AsyncLogging.h ../codecServer/muduo/base/Atomic.h ../codecServer/muduo/base/BlockingQueue.h ../codecServer/muduo/base/BoundedBlockingQueue.h ../codecServer/muduo/base/Condition.h ../codecServer/muduo/base/CountDownLatch.h ../codecServer/muduo/base/CurrentThread.h ../codecServer/muduo/base/Date.h ../codecServer/muduo/base/Exception.h ../codecServer/muduo/base/FileUtil.h ../codecServer/muduo/base/GzipFile.h ../codecServer/muduo/base/LogFile.h ../codecServer/muduo/base/LogStream.h ../codecServer/muduo/base/Logging.h ../codecServer/muduo/base/Mutex.h ../codecServer/muduo/base/ProcessInfo.h ../codecServer/muduo/base/Singleton.h ../codecServer/muduo/base/StringPiece.h ../codecServer/muduo/base/Thread.h ../codecServer/muduo/base/ThreadLocal.h ../codecServer/muduo/base/ThreadLocalSingleton.h ../codecServer/muduo/base/ThreadPool.h ../codecServer/muduo/base/TimeZone.h ../codecServer/muduo/base/Timestamp.h ../codecServer/muduo/base/Types.h ../codecServer/muduo/base/WeakCallback.h ../codecServer/muduo/base/copyable.h ../codecServer/muduo/base/noncopyable.h ../codecServer/muduo/net/Acceptor.h ../codecServer/muduo/net/Buffer.h ../codecServer/muduo/net/Callbacks.h ../codecServer/muduo/net/Channel.h ../codecServer/muduo/net/Connector.h ../codecServer/muduo/net/Endian.h ../codecServer/muduo/net/EventLoop.h ../codecServer/muduo/net/EventLoopThread.h ../codecServer/muduo/net/EventLoopThreadPool.h ../codecServer/muduo/net/InetAddress.h ../codecServer/muduo/net/Poller.h ../codecServer/muduo/net/Socket.h ../codecServer/muduo/net/SocketsOps.h ../codecServer/muduo/net/TcpClient.h ../codecServer/muduo/net/TcpConnection.h ../codecServer/muduo/net/TcpServer.h ../codecServer/muduo/net/Timer.h ../codecServer/muduo/net/TimerId.h ../codecServer/muduo/net/TimerQueue.h ../codecServer/muduo/net/ZlibStream.h ../codecServer/muduo/net/poller/EPollPoller.h ../codecServer/muduo/net/poller/PollPoller.h ../codecServer/order/BufToOrder.h ../codecServer/server/connServer.h ../codecServer/server/socketServer.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../codecServer/main.cpp ../codecServer/codecServer.cpp ../codecServer/muduo/base/AsyncLogging.cc ../codecServer/muduo/base/Condition.cc ../codecServer/muduo/base/CountDownLatch.cc ../codecServer/muduo/base/CurrentThread.cc ../codecServer/muduo/base/Date.cc ../codecServer/muduo/base/Exception.cc ../codecServer/muduo/base/FileUtil.cc ../codecServer/muduo/base/LogFile.cc ../codecServer/muduo/base/LogStream.cc ../codecServer/muduo/base/Logging.cc ../codecServer/muduo/base/ProcessInfo.cc ../codecServer/muduo/base/Thread.cc ../codecServer/muduo/base/ThreadPool.cc ../codecServer/muduo/base/TimeZone.cc ../codecServer/muduo/base/Timestamp.cc ../codecServer/muduo/net/Acceptor.cc ../codecServer/muduo/net/Buffer.cc ../codecServer/muduo/net/Channel.cc ../codecServer/muduo/net/Connector.cc ../codecServer/muduo/net/EventLoop.cc ../codecServer/muduo/net/EventLoopThread.cc ../codecServer/muduo/net/EventLoopThreadPool.cc ../codecServer/muduo/net/InetAddress.cc ../codecServer/muduo/net/Poller.cc ../codecServer/muduo/net/Socket.cc ../codecServer/muduo/net/SocketsOps.cc ../codecServer/muduo/net/TcpClient.cc ../codecServer/muduo/net/TcpConnection.cc ../codecServer/muduo/net/TcpServer.cc ../codecServer/muduo/net/Timer.cc ../codecServer/muduo/net/TimerQueue.cc ../codecServer/muduo/net/poller/DefaultPoller.cc ../codecServer/muduo/net/poller/EPollPoller.cc ../codecServer/muduo/net/poller/PollPoller.cc ../codecServer/order/BufToOrder.cpp ../codecServer/server/connServer.cpp ../codecServer/server/socketServer.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../codecServer/codecServer.ui $(DISTDIR)/
 
 
@@ -5337,6 +5341,86 @@ PollPoller.o: ../codecServer/muduo/net/poller/PollPoller.cc ../codecServer/muduo
 		../codecServer/muduo/base/StringPiece.h \
 		../codecServer/muduo/net/Channel.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o PollPoller.o ../codecServer/muduo/net/poller/PollPoller.cc
+
+BufToOrder.o: ../codecServer/order/BufToOrder.cpp ../codecServer/order/BufToOrder.h \
+		../codecServer/muduo/net/Buffer.h \
+		../codecServer/muduo/base/copyable.h \
+		../codecServer/muduo/base/StringPiece.h \
+		../codecServer/muduo/base/Types.h \
+		../codecServer/muduo/net/Endian.h \
+		../codecServer/muduo/base/Logging.h \
+		../codecServer/muduo/base/LogStream.h \
+		../codecServer/muduo/base/noncopyable.h \
+		../codecServer/muduo/base/Timestamp.h \
+		/home/code/boost_1_72_0/boost/operators.hpp \
+		/home/code/boost_1_72_0/boost/operators_v1.hpp \
+		/home/code/boost_1_72_0/boost/config.hpp \
+		/home/code/boost_1_72_0/boost/config/user.hpp \
+		/home/code/boost_1_72_0/boost/config/detail/select_compiler_config.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/nvcc.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/gcc_xml.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/cray.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/common_edg.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/comeau.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/pathscale.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/clang.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/intel.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/visualc.hpp \
+		/home/code/boost_1_72_0/boost/config/pragma_message.hpp \
+		/home/code/boost_1_72_0/boost/config/helper_macros.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/gcc.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/digitalmars.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/kai.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/sgi_mipspro.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/compaq_cxx.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/greenhills.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/codegear.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/borland.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/metrowerks.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/sunpro_cc.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/hp_acc.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/mpw.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/xlcpp_zos.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/xlcpp.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/vacpp.hpp \
+		/home/code/boost_1_72_0/boost/config/compiler/pgi.hpp \
+		/home/code/boost_1_72_0/boost/config/detail/select_stdlib_config.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/stlport.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/libcomo.hpp \
+		/home/code/boost_1_72_0/boost/config/no_tr1/utility.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/roguewave.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/libcpp.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/libstdcpp3.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/sgi.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/msl.hpp \
+		/home/code/boost_1_72_0/boost/config/detail/posix_features.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/xlcpp_zos.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/vacpp.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/modena.hpp \
+		/home/code/boost_1_72_0/boost/config/stdlib/dinkumware.hpp \
+		/home/code/boost_1_72_0/boost/config/detail/select_platform_config.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/linux.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/bsd.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/solaris.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/irix.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/hpux.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/cygwin.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/win32.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/beos.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/macos.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/zos.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/aix.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/amigaos.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/qnxnto.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/vxworks.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/symbian.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/cray.hpp \
+		/home/code/boost_1_72_0/boost/config/platform/vms.hpp \
+		/home/code/boost_1_72_0/boost/config/detail/suffix.hpp \
+		/home/code/boost_1_72_0/boost/detail/workaround.hpp \
+		/home/code/boost_1_72_0/boost/config/workaround.hpp \
+		/home/code/boost_1_72_0/boost/core/addressof.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o BufToOrder.o ../codecServer/order/BufToOrder.cpp
 
 connServer.o: ../codecServer/server/connServer.cpp ../codecServer/server/connServer.h \
 		../codecServer/muduo/net/TcpServer.h \

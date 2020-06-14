@@ -54,6 +54,7 @@ SOURCES += \
     muduo/net/poller/DefaultPoller.cc \
     muduo/net/poller/EPollPoller.cc \
     muduo/net/poller/PollPoller.cc \
+    order/BufToOrder.cpp \
     server/connServer.cpp \
     server/socketServer.cpp
 
@@ -109,6 +110,7 @@ HEADERS += \
     muduo/net/ZlibStream.h \
     muduo/net/poller/EPollPoller.h \
     muduo/net/poller/PollPoller.h \
+    order/BufToOrder.h \
     server/connServer.h \
     server/socketServer.h
 
