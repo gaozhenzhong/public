@@ -52,7 +52,8 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../codecServer/main.cpp \
+SOURCES       = ../codecServer/base/cycleQueue.cpp \
+		../codecServer/main.cpp \
 		../codecServer/codecServer.cpp \
 		../codecServer/muduo/base/AsyncLogging.cc \
 		../codecServer/muduo/base/Condition.cc \
@@ -91,7 +92,8 @@ SOURCES       = ../codecServer/main.cpp \
 		../codecServer/order/BufToOrder.cpp \
 		../codecServer/server/connServer.cpp \
 		../codecServer/server/socketServer.cpp moc_codecServer.cpp
-OBJECTS       = main.o \
+OBJECTS       = cycleQueue.o \
+		main.o \
 		codecServer.o \
 		AsyncLogging.o \
 		Condition.o \
@@ -344,7 +346,8 @@ DIST          = ../codecServer/muduo/net/BUILD.bazel \
 		/home/kevin/Qt5.14.2/5.14.2/gcc_64/mkspecs/features/exceptions.prf \
 		/home/kevin/Qt5.14.2/5.14.2/gcc_64/mkspecs/features/yacc.prf \
 		/home/kevin/Qt5.14.2/5.14.2/gcc_64/mkspecs/features/lex.prf \
-		../codecServer/codecServer.pro ../codecServer/codecServer.h \
+		../codecServer/codecServer.pro ../codecServer/base/cycleQueue.h \
+		../codecServer/codecServer.h \
 		../codecServer/muduo/base/AsyncLogging.h \
 		../codecServer/muduo/base/Atomic.h \
 		../codecServer/muduo/base/BlockingQueue.h \
@@ -397,7 +400,8 @@ DIST          = ../codecServer/muduo/net/BUILD.bazel \
 		../codecServer/muduo/net/poller/PollPoller.h \
 		../codecServer/order/BufToOrder.h \
 		../codecServer/server/connServer.h \
-		../codecServer/server/socketServer.h ../codecServer/main.cpp \
+		../codecServer/server/socketServer.h ../codecServer/base/cycleQueue.cpp \
+		../codecServer/main.cpp \
 		../codecServer/codecServer.cpp \
 		../codecServer/muduo/base/AsyncLogging.cc \
 		../codecServer/muduo/base/Condition.cc \
@@ -887,8 +891,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /home/kevin/Qt5.14.2/5.14.2/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../codecServer/codecServer.h ../codecServer/muduo/base/AsyncLogging.h ../codecServer/muduo/base/Atomic.h ../codecServer/muduo/base/BlockingQueue.h ../codecServer/muduo/base/BoundedBlockingQueue.h ../codecServer/muduo/base/Condition.h ../codecServer/muduo/base/CountDownLatch.h ../codecServer/muduo/base/CurrentThread.h ../codecServer/muduo/base/Date.h ../codecServer/muduo/base/Exception.h ../codecServer/muduo/base/FileUtil.h ../codecServer/muduo/base/GzipFile.h ../codecServer/muduo/base/LogFile.h ../codecServer/muduo/base/LogStream.h ../codecServer/muduo/base/Logging.h ../codecServer/muduo/base/Mutex.h ../codecServer/muduo/base/ProcessInfo.h ../codecServer/muduo/base/Singleton.h ../codecServer/muduo/base/StringPiece.h ../codecServer/muduo/base/Thread.h ../codecServer/muduo/base/ThreadLocal.h ../codecServer/muduo/base/ThreadLocalSingleton.h ../codecServer/muduo/base/ThreadPool.h ../codecServer/muduo/base/TimeZone.h ../codecServer/muduo/base/Timestamp.h ../codecServer/muduo/base/Types.h ../codecServer/muduo/base/WeakCallback.h ../codecServer/muduo/base/copyable.h ../codecServer/muduo/base/noncopyable.h ../codecServer/muduo/net/Acceptor.h ../codecServer/muduo/net/Buffer.h ../codecServer/muduo/net/Callbacks.h ../codecServer/muduo/net/Channel.h ../codecServer/muduo/net/Connector.h ../codecServer/muduo/net/Endian.h ../codecServer/muduo/net/EventLoop.h ../codecServer/muduo/net/EventLoopThread.h ../codecServer/muduo/net/EventLoopThreadPool.h ../codecServer/muduo/net/InetAddress.h ../codecServer/muduo/net/Poller.h ../codecServer/muduo/net/Socket.h ../codecServer/muduo/net/SocketsOps.h ../codecServer/muduo/net/TcpClient.h ../codecServer/muduo/net/TcpConnection.h ../codecServer/muduo/net/TcpServer.h ../codecServer/muduo/net/Timer.h ../codecServer/muduo/net/TimerId.h ../codecServer/muduo/net/TimerQueue.h ../codecServer/muduo/net/ZlibStream.h ../codecServer/muduo/net/poller/EPollPoller.h ../codecServer/muduo/net/poller/PollPoller.h ../codecServer/order/BufToOrder.h ../codecServer/server/connServer.h ../codecServer/server/socketServer.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../codecServer/main.cpp ../codecServer/codecServer.cpp ../codecServer/muduo/base/AsyncLogging.cc ../codecServer/muduo/base/Condition.cc ../codecServer/muduo/base/CountDownLatch.cc ../codecServer/muduo/base/CurrentThread.cc ../codecServer/muduo/base/Date.cc ../codecServer/muduo/base/Exception.cc ../codecServer/muduo/base/FileUtil.cc ../codecServer/muduo/base/LogFile.cc ../codecServer/muduo/base/LogStream.cc ../codecServer/muduo/base/Logging.cc ../codecServer/muduo/base/ProcessInfo.cc ../codecServer/muduo/base/Thread.cc ../codecServer/muduo/base/ThreadPool.cc ../codecServer/muduo/base/TimeZone.cc ../codecServer/muduo/base/Timestamp.cc ../codecServer/muduo/net/Acceptor.cc ../codecServer/muduo/net/Buffer.cc ../codecServer/muduo/net/Channel.cc ../codecServer/muduo/net/Connector.cc ../codecServer/muduo/net/EventLoop.cc ../codecServer/muduo/net/EventLoopThread.cc ../codecServer/muduo/net/EventLoopThreadPool.cc ../codecServer/muduo/net/InetAddress.cc ../codecServer/muduo/net/Poller.cc ../codecServer/muduo/net/Socket.cc ../codecServer/muduo/net/SocketsOps.cc ../codecServer/muduo/net/TcpClient.cc ../codecServer/muduo/net/TcpConnection.cc ../codecServer/muduo/net/TcpServer.cc ../codecServer/muduo/net/Timer.cc ../codecServer/muduo/net/TimerQueue.cc ../codecServer/muduo/net/poller/DefaultPoller.cc ../codecServer/muduo/net/poller/EPollPoller.cc ../codecServer/muduo/net/poller/PollPoller.cc ../codecServer/order/BufToOrder.cpp ../codecServer/server/connServer.cpp ../codecServer/server/socketServer.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../codecServer/base/cycleQueue.h ../codecServer/codecServer.h ../codecServer/muduo/base/AsyncLogging.h ../codecServer/muduo/base/Atomic.h ../codecServer/muduo/base/BlockingQueue.h ../codecServer/muduo/base/BoundedBlockingQueue.h ../codecServer/muduo/base/Condition.h ../codecServer/muduo/base/CountDownLatch.h ../codecServer/muduo/base/CurrentThread.h ../codecServer/muduo/base/Date.h ../codecServer/muduo/base/Exception.h ../codecServer/muduo/base/FileUtil.h ../codecServer/muduo/base/GzipFile.h ../codecServer/muduo/base/LogFile.h ../codecServer/muduo/base/LogStream.h ../codecServer/muduo/base/Logging.h ../codecServer/muduo/base/Mutex.h ../codecServer/muduo/base/ProcessInfo.h ../codecServer/muduo/base/Singleton.h ../codecServer/muduo/base/StringPiece.h ../codecServer/muduo/base/Thread.h ../codecServer/muduo/base/ThreadLocal.h ../codecServer/muduo/base/ThreadLocalSingleton.h ../codecServer/muduo/base/ThreadPool.h ../codecServer/muduo/base/TimeZone.h ../codecServer/muduo/base/Timestamp.h ../codecServer/muduo/base/Types.h ../codecServer/muduo/base/WeakCallback.h ../codecServer/muduo/base/copyable.h ../codecServer/muduo/base/noncopyable.h ../codecServer/muduo/net/Acceptor.h ../codecServer/muduo/net/Buffer.h ../codecServer/muduo/net/Callbacks.h ../codecServer/muduo/net/Channel.h ../codecServer/muduo/net/Connector.h ../codecServer/muduo/net/Endian.h ../codecServer/muduo/net/EventLoop.h ../codecServer/muduo/net/EventLoopThread.h ../codecServer/muduo/net/EventLoopThreadPool.h ../codecServer/muduo/net/InetAddress.h ../codecServer/muduo/net/Poller.h ../codecServer/muduo/net/Socket.h ../codecServer/muduo/net/SocketsOps.h ../codecServer/muduo/net/TcpClient.h ../codecServer/muduo/net/TcpConnection.h ../codecServer/muduo/net/TcpServer.h ../codecServer/muduo/net/Timer.h ../codecServer/muduo/net/TimerId.h ../codecServer/muduo/net/TimerQueue.h ../codecServer/muduo/net/ZlibStream.h ../codecServer/muduo/net/poller/EPollPoller.h ../codecServer/muduo/net/poller/PollPoller.h ../codecServer/order/BufToOrder.h ../codecServer/server/connServer.h ../codecServer/server/socketServer.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../codecServer/base/cycleQueue.cpp ../codecServer/main.cpp ../codecServer/codecServer.cpp ../codecServer/muduo/base/AsyncLogging.cc ../codecServer/muduo/base/Condition.cc ../codecServer/muduo/base/CountDownLatch.cc ../codecServer/muduo/base/CurrentThread.cc ../codecServer/muduo/base/Date.cc ../codecServer/muduo/base/Exception.cc ../codecServer/muduo/base/FileUtil.cc ../codecServer/muduo/base/LogFile.cc ../codecServer/muduo/base/LogStream.cc ../codecServer/muduo/base/Logging.cc ../codecServer/muduo/base/ProcessInfo.cc ../codecServer/muduo/base/Thread.cc ../codecServer/muduo/base/ThreadPool.cc ../codecServer/muduo/base/TimeZone.cc ../codecServer/muduo/base/Timestamp.cc ../codecServer/muduo/net/Acceptor.cc ../codecServer/muduo/net/Buffer.cc ../codecServer/muduo/net/Channel.cc ../codecServer/muduo/net/Connector.cc ../codecServer/muduo/net/EventLoop.cc ../codecServer/muduo/net/EventLoopThread.cc ../codecServer/muduo/net/EventLoopThreadPool.cc ../codecServer/muduo/net/InetAddress.cc ../codecServer/muduo/net/Poller.cc ../codecServer/muduo/net/Socket.cc ../codecServer/muduo/net/SocketsOps.cc ../codecServer/muduo/net/TcpClient.cc ../codecServer/muduo/net/TcpConnection.cc ../codecServer/muduo/net/TcpServer.cc ../codecServer/muduo/net/Timer.cc ../codecServer/muduo/net/TimerQueue.cc ../codecServer/muduo/net/poller/DefaultPoller.cc ../codecServer/muduo/net/poller/EPollPoller.cc ../codecServer/muduo/net/poller/PollPoller.cc ../codecServer/order/BufToOrder.cpp ../codecServer/server/connServer.cpp ../codecServer/server/socketServer.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../codecServer/codecServer.ui $(DISTDIR)/
 
 
@@ -1230,6 +1234,9 @@ compiler_lex_clean:
 compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
 
 ####### Compile
+
+cycleQueue.o: ../codecServer/base/cycleQueue.cpp ../codecServer/base/cycleQueue.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o cycleQueue.o ../codecServer/base/cycleQueue.cpp
 
 main.o: ../codecServer/main.cpp ../codecServer/codecServer.h \
 		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/QWidget \

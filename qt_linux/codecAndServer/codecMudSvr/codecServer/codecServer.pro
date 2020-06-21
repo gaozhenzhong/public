@@ -18,6 +18,7 @@ INCLUDEPATH += ./server
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    base/cycleQueue.cpp \
     main.cpp \
     codecServer.cpp \
     muduo/base/AsyncLogging.cc \
@@ -59,6 +60,7 @@ SOURCES += \
     server/socketServer.cpp
 
 HEADERS += \
+    base/cycleQueue.h \
     codecServer.h \
     muduo/base/AsyncLogging.h \
     muduo/base/Atomic.h \

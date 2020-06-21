@@ -6,6 +6,9 @@
 #include<deque>
 
 #include "muduo/net/Buffer.h"
+#include "base/cycleQueue.h"
+
+#include "muduo/base/Logging.h"
 enum  orderID
 {
     REPLAY,
@@ -31,14 +34,14 @@ struct devOneOrder
 class BufToOrder
 {
 public:
-    BufToOrder(){}
-    BufToOrder(const char*,int len);
+    BufToOrder():cycleQueue_(10){}
+    ~BufToOrder(){}
     void AddNewData(const char*,int len);
     int  GetOneOrder(char*order);
 private:
-    void FindOrderInBuf();
     muduo::net::Buffer dataBuf_;
-    std::deque<std::unique_ptr<struct devOneOrder>>  orderBuf_;
+    cycleQueue<std::shared_ptr<struct devOneOrder>> cycleQueue_;
+    void FindOrderInBuf();
 };
 
 #endif // BUFTOORDER_H
