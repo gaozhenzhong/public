@@ -39,8 +39,8 @@ public:
     void AddNewData(const char*,int len);
     int  GetOneOrder(char*order);
 private:
+    cycleQueue<struct devOneOrder> cycleQueue_;
     muduo::net::Buffer dataBuf_;
-    cycleQueue<std::shared_ptr<struct devOneOrder>> cycleQueue_;
     void FindOrderInBuf();
 };
 

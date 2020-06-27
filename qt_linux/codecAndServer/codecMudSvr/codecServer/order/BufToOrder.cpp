@@ -25,11 +25,11 @@ void BufToOrder::FindOrderInBuf()
                 if((*(begin+orderIDDataAddr+orderLen) == '5')&&(*(begin+orderIDDataAddr+orderLen+1)=='5')
                         &&(*(begin+orderIDDataAddr+orderLen+6)=='F')&&(*(begin+orderIDDataAddr+orderLen+7)=='F'))
                 {
-                        std::shared_ptr<struct devOneOrder> order(new struct devOneOrder) ;
-                        order->len = orderLen;
-                        order->orderID = static_cast<enum  orderID>(*(begin+orderIDAddr)) ;
-                        memcpy(order->data,begin+orderIDDataAddr,static_cast<int>(orderLen));
-                        LOG_DEBUG<<"order info : len = "<<order->len<<"ID = "<<order->orderID;
+                        struct devOneOrder order ;
+                        order.len = orderLen;
+                        order.orderID = static_cast<enum  orderID>(*(begin+orderIDAddr)) ;
+                        memcpy(order.data,begin+orderIDDataAddr,static_cast<int>(orderLen));
+                        LOG_DEBUG<<"order info : len = "<<order.len<<"ID = "<<order.orderID;
                         cycleQueue_.push(order);
                 }
             }
