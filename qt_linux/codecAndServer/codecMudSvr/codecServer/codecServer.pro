@@ -56,6 +56,7 @@ SOURCES += \
     muduo/net/poller/EPollPoller.cc \
     muduo/net/poller/PollPoller.cc \
     order/BufToOrder.cpp \
+    order/order.cpp \
     server/connServer.cpp \
     server/socketServer.cpp
 
@@ -113,6 +114,7 @@ HEADERS += \
     muduo/net/poller/EPollPoller.h \
     muduo/net/poller/PollPoller.h \
     order/BufToOrder.h \
+    order/order.h \
     server/connServer.h \
     server/socketServer.h
 

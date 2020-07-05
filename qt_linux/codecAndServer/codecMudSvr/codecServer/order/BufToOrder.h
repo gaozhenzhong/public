@@ -9,6 +9,7 @@
 #include "base/cycleQueue.h"
 
 #include "muduo/base/Logging.h"
+
 enum  orderID
 {
     REPLAY,
@@ -37,7 +38,7 @@ public:
     BufToOrder():cycleQueue_(10){}
     ~BufToOrder(){}
     void AddNewData(const char*,int len);
-    int  GetOneOrder(char*order);
+    int  GetOneOrder( enum orderID & _orderID ,char*_order);
 private:
     cycleQueue<struct devOneOrder> cycleQueue_;
     muduo::net::Buffer dataBuf_;

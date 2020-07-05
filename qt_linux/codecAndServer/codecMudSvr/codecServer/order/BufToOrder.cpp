@@ -25,12 +25,12 @@ void BufToOrder::FindOrderInBuf()
                 if((*(begin+orderIDDataAddr+orderLen) == '5')&&(*(begin+orderIDDataAddr+orderLen+1)=='5')
                         &&(*(begin+orderIDDataAddr+orderLen+6)=='F')&&(*(begin+orderIDDataAddr+orderLen+7)=='F'))
                 {
-                        struct devOneOrder order ;
-                        order.len = orderLen;
-                        order.orderID = static_cast<enum  orderID>(*(begin+orderIDAddr)) ;
-                        memcpy(order.data,begin+orderIDDataAddr,static_cast<int>(orderLen));
-                        LOG_DEBUG<<"order info : len = "<<order.len<<"ID = "<<order.orderID;
-                        cycleQueue_.push(order);
+                    struct devOneOrder order ;
+                    order.len = orderLen;
+                    order.orderID = static_cast<enum  orderID>(*(begin+orderIDAddr)) ;
+                    memcpy(order.data,begin+orderIDDataAddr,static_cast<int>(orderLen));
+                    LOG_DEBUG<<"order info : len = "<<order.len<<"ID = "<<order.orderID;
+                    cycleQueue_.push(order);
                 }
             }
             else
@@ -52,16 +52,18 @@ void BufToOrder::AddNewData(const char* _data,int _len)
     LOG_DEBUG<<_len;
 }
 
-int  BufToOrder::GetOneOrder(char*_order)
+int  BufToOrder::GetOneOrder( enum orderID & _orderID ,char*_order)
 {
     int rst = 0;
-#if 0
+
     if(!cycleQueue_.isEmpty() )
     {
-        std::unique_ptr<struct devOneOrder> order = move(cycleQueue_.pop());
-        memcpy(_order, order->data,order->len);
+        struct devOneOrder order =  cycleQueue_.pop();
+        memcpy(_order, order.data,order.len);
+        _orderID = order.orderID;
         rst = 1;
     }
-#endif
+
     return rst;
 }
+

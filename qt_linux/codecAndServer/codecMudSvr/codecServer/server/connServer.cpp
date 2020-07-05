@@ -1,4 +1,5 @@
 #include "connServer.h"
+#include "./order/order.h"
 connServer::tcpSvrAndLoop::tcpSvrAndLoop(InetAddress & _listenAddr,connServer* _cServer)
     :server_(&loop_, _listenAddr, "connServer")
 {
@@ -50,8 +51,9 @@ void connServer::onConnection(const TcpConnectionPtr& conn)
         << conn->localAddress().toIpPort() << " is "
         << (conn->connected() ? "UP" : "DOWN");
     LOG_INFO << conn->getTcpInfoString();
+    order *orderMain = new order;
+    conn->setMessageCallback(std::bind(&order::muduoOnMessage, orderMain, _1, _2, _3));
     //conn->send("hello\n");
-
 }
 
 void connServer::onMessage(const TcpConnectionPtr& conn, Buffer* buf, Timestamp time)
@@ -66,7 +68,6 @@ void connServer::onMessage(const TcpConnectionPtr& conn, Buffer* buf, Timestamp 
     }
     conn->send(msg);
 #else
-
-    conn->setMessageCallback(testFunctionnst);//如果注册了回调，怎server的函数不在被调用
+    conn->setMessageCallback(testFunctionnst);//如果注册了回调，原server的函数不在被调用
 #endif
 }
