@@ -22,5 +22,4 @@ void order::muduoOnMessage(const TcpConnectionPtr& _conn, Buffer* _buf, Timestam
     {
         LOG_DEBUG<<ID<<orderData;
     }
-
 }

@@ -53,6 +53,10 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = ../codecServer/base/cycleQueue.cpp \
+		../codecServer/dev/AVDev.cpp \
+		../codecServer/dev/codecDev.cpp \
+		../codecServer/dev/decodeDev.cpp \
+		../codecServer/dev/encodeDev.cpp \
 		../codecServer/main.cpp \
 		../codecServer/codecServer.cpp \
 		../codecServer/muduo/base/AsyncLogging.cc \
@@ -94,6 +98,10 @@ SOURCES       = ../codecServer/base/cycleQueue.cpp \
 		../codecServer/server/connServer.cpp \
 		../codecServer/server/socketServer.cpp moc_codecServer.cpp
 OBJECTS       = cycleQueue.o \
+		AVDev.o \
+		codecDev.o \
+		decodeDev.o \
+		encodeDev.o \
 		main.o \
 		codecServer.o \
 		AsyncLogging.o \
@@ -350,6 +358,10 @@ DIST          = ../codecServer/muduo/net/BUILD.bazel \
 		/home/kevin/Qt5.14.2/5.14.2/gcc_64/mkspecs/features/lex.prf \
 		../codecServer/codecServer.pro ../codecServer/base/cycleQueue.h \
 		../codecServer/codecServer.h \
+		../codecServer/dev/AVDev.h \
+		../codecServer/dev/codecDev.h \
+		../codecServer/dev/decodeDev.h \
+		../codecServer/dev/encodeDev.h \
 		../codecServer/muduo/base/AsyncLogging.h \
 		../codecServer/muduo/base/Atomic.h \
 		../codecServer/muduo/base/BlockingQueue.h \
@@ -404,6 +416,10 @@ DIST          = ../codecServer/muduo/net/BUILD.bazel \
 		../codecServer/order/order.h \
 		../codecServer/server/connServer.h \
 		../codecServer/server/socketServer.h ../codecServer/base/cycleQueue.cpp \
+		../codecServer/dev/AVDev.cpp \
+		../codecServer/dev/codecDev.cpp \
+		../codecServer/dev/decodeDev.cpp \
+		../codecServer/dev/encodeDev.cpp \
 		../codecServer/main.cpp \
 		../codecServer/codecServer.cpp \
 		../codecServer/muduo/base/AsyncLogging.cc \
@@ -895,8 +911,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /home/kevin/Qt5.14.2/5.14.2/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../codecServer/base/cycleQueue.h ../codecServer/codecServer.h ../codecServer/muduo/base/AsyncLogging.h ../codecServer/muduo/base/Atomic.h ../codecServer/muduo/base/BlockingQueue.h ../codecServer/muduo/base/BoundedBlockingQueue.h ../codecServer/muduo/base/Condition.h ../codecServer/muduo/base/CountDownLatch.h ../codecServer/muduo/base/CurrentThread.h ../codecServer/muduo/base/Date.h ../codecServer/muduo/base/Exception.h ../codecServer/muduo/base/FileUtil.h ../codecServer/muduo/base/GzipFile.h ../codecServer/muduo/base/LogFile.h ../codecServer/muduo/base/LogStream.h ../codecServer/muduo/base/Logging.h ../codecServer/muduo/base/Mutex.h ../codecServer/muduo/base/ProcessInfo.h ../codecServer/muduo/base/Singleton.h ../codecServer/muduo/base/StringPiece.h ../codecServer/muduo/base/Thread.h ../codecServer/muduo/base/ThreadLocal.h ../codecServer/muduo/base/ThreadLocalSingleton.h ../codecServer/muduo/base/ThreadPool.h ../codecServer/muduo/base/TimeZone.h ../codecServer/muduo/base/Timestamp.h ../codecServer/muduo/base/Types.h ../codecServer/muduo/base/WeakCallback.h ../codecServer/muduo/base/copyable.h ../codecServer/muduo/base/noncopyable.h ../codecServer/muduo/net/Acceptor.h ../codecServer/muduo/net/Buffer.h ../codecServer/muduo/net/Callbacks.h ../codecServer/muduo/net/Channel.h ../codecServer/muduo/net/Connector.h ../codecServer/muduo/net/Endian.h ../codecServer/muduo/net/EventLoop.h ../codecServer/muduo/net/EventLoopThread.h ../codecServer/muduo/net/EventLoopThreadPool.h ../codecServer/muduo/net/InetAddress.h ../codecServer/muduo/net/Poller.h ../codecServer/muduo/net/Socket.h ../codecServer/muduo/net/SocketsOps.h ../codecServer/muduo/net/TcpClient.h ../codecServer/muduo/net/TcpConnection.h ../codecServer/muduo/net/TcpServer.h ../codecServer/muduo/net/Timer.h ../codecServer/muduo/net/TimerId.h ../codecServer/muduo/net/TimerQueue.h ../codecServer/muduo/net/ZlibStream.h ../codecServer/muduo/net/poller/EPollPoller.h ../codecServer/muduo/net/poller/PollPoller.h ../codecServer/order/BufToOrder.h ../codecServer/order/order.h ../codecServer/server/connServer.h ../codecServer/server/socketServer.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../codecServer/base/cycleQueue.cpp ../codecServer/main.cpp ../codecServer/codecServer.cpp ../codecServer/muduo/base/AsyncLogging.cc ../codecServer/muduo/base/Condition.cc ../codecServer/muduo/base/CountDownLatch.cc ../codecServer/muduo/base/CurrentThread.cc ../codecServer/muduo/base/Date.cc ../codecServer/muduo/base/Exception.cc ../codecServer/muduo/base/FileUtil.cc ../codecServer/muduo/base/LogFile.cc ../codecServer/muduo/base/LogStream.cc ../codecServer/muduo/base/Logging.cc ../codecServer/muduo/base/ProcessInfo.cc ../codecServer/muduo/base/Thread.cc ../codecServer/muduo/base/ThreadPool.cc ../codecServer/muduo/base/TimeZone.cc ../codecServer/muduo/base/Timestamp.cc ../codecServer/muduo/net/Acceptor.cc ../codecServer/muduo/net/Buffer.cc ../codecServer/muduo/net/Channel.cc ../codecServer/muduo/net/Connector.cc ../codecServer/muduo/net/EventLoop.cc ../codecServer/muduo/net/EventLoopThread.cc ../codecServer/muduo/net/EventLoopThreadPool.cc ../codecServer/muduo/net/InetAddress.cc ../codecServer/muduo/net/Poller.cc ../codecServer/muduo/net/Socket.cc ../codecServer/muduo/net/SocketsOps.cc ../codecServer/muduo/net/TcpClient.cc ../codecServer/muduo/net/TcpConnection.cc ../codecServer/muduo/net/TcpServer.cc ../codecServer/muduo/net/Timer.cc ../codecServer/muduo/net/TimerQueue.cc ../codecServer/muduo/net/poller/DefaultPoller.cc ../codecServer/muduo/net/poller/EPollPoller.cc ../codecServer/muduo/net/poller/PollPoller.cc ../codecServer/order/BufToOrder.cpp ../codecServer/order/order.cpp ../codecServer/server/connServer.cpp ../codecServer/server/socketServer.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../codecServer/base/cycleQueue.h ../codecServer/codecServer.h ../codecServer/dev/AVDev.h ../codecServer/dev/codecDev.h ../codecServer/dev/decodeDev.h ../codecServer/dev/encodeDev.h ../codecServer/muduo/base/AsyncLogging.h ../codecServer/muduo/base/Atomic.h ../codecServer/muduo/base/BlockingQueue.h ../codecServer/muduo/base/BoundedBlockingQueue.h ../codecServer/muduo/base/Condition.h ../codecServer/muduo/base/CountDownLatch.h ../codecServer/muduo/base/CurrentThread.h ../codecServer/muduo/base/Date.h ../codecServer/muduo/base/Exception.h ../codecServer/muduo/base/FileUtil.h ../codecServer/muduo/base/GzipFile.h ../codecServer/muduo/base/LogFile.h ../codecServer/muduo/base/LogStream.h ../codecServer/muduo/base/Logging.h ../codecServer/muduo/base/Mutex.h ../codecServer/muduo/base/ProcessInfo.h ../codecServer/muduo/base/Singleton.h ../codecServer/muduo/base/StringPiece.h ../codecServer/muduo/base/Thread.h ../codecServer/muduo/base/ThreadLocal.h ../codecServer/muduo/base/ThreadLocalSingleton.h ../codecServer/muduo/base/ThreadPool.h ../codecServer/muduo/base/TimeZone.h ../codecServer/muduo/base/Timestamp.h ../codecServer/muduo/base/Types.h ../codecServer/muduo/base/WeakCallback.h ../codecServer/muduo/base/copyable.h ../codecServer/muduo/base/noncopyable.h ../codecServer/muduo/net/Acceptor.h ../codecServer/muduo/net/Buffer.h ../codecServer/muduo/net/Callbacks.h ../codecServer/muduo/net/Channel.h ../codecServer/muduo/net/Connector.h ../codecServer/muduo/net/Endian.h ../codecServer/muduo/net/EventLoop.h ../codecServer/muduo/net/EventLoopThread.h ../codecServer/muduo/net/EventLoopThreadPool.h ../codecServer/muduo/net/InetAddress.h ../codecServer/muduo/net/Poller.h ../codecServer/muduo/net/Socket.h ../codecServer/muduo/net/SocketsOps.h ../codecServer/muduo/net/TcpClient.h ../codecServer/muduo/net/TcpConnection.h ../codecServer/muduo/net/TcpServer.h ../codecServer/muduo/net/Timer.h ../codecServer/muduo/net/TimerId.h ../codecServer/muduo/net/TimerQueue.h ../codecServer/muduo/net/ZlibStream.h ../codecServer/muduo/net/poller/EPollPoller.h ../codecServer/muduo/net/poller/PollPoller.h ../codecServer/order/BufToOrder.h ../codecServer/order/order.h ../codecServer/server/connServer.h ../codecServer/server/socketServer.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../codecServer/base/cycleQueue.cpp ../codecServer/dev/AVDev.cpp ../codecServer/dev/codecDev.cpp ../codecServer/dev/decodeDev.cpp ../codecServer/dev/encodeDev.cpp ../codecServer/main.cpp ../codecServer/codecServer.cpp ../codecServer/muduo/base/AsyncLogging.cc ../codecServer/muduo/base/Condition.cc ../codecServer/muduo/base/CountDownLatch.cc ../codecServer/muduo/base/CurrentThread.cc ../codecServer/muduo/base/Date.cc ../codecServer/muduo/base/Exception.cc ../codecServer/muduo/base/FileUtil.cc ../codecServer/muduo/base/LogFile.cc ../codecServer/muduo/base/LogStream.cc ../codecServer/muduo/base/Logging.cc ../codecServer/muduo/base/ProcessInfo.cc ../codecServer/muduo/base/Thread.cc ../codecServer/muduo/base/ThreadPool.cc ../codecServer/muduo/base/TimeZone.cc ../codecServer/muduo/base/Timestamp.cc ../codecServer/muduo/net/Acceptor.cc ../codecServer/muduo/net/Buffer.cc ../codecServer/muduo/net/Channel.cc ../codecServer/muduo/net/Connector.cc ../codecServer/muduo/net/EventLoop.cc ../codecServer/muduo/net/EventLoopThread.cc ../codecServer/muduo/net/EventLoopThreadPool.cc ../codecServer/muduo/net/InetAddress.cc ../codecServer/muduo/net/Poller.cc ../codecServer/muduo/net/Socket.cc ../codecServer/muduo/net/SocketsOps.cc ../codecServer/muduo/net/TcpClient.cc ../codecServer/muduo/net/TcpConnection.cc ../codecServer/muduo/net/TcpServer.cc ../codecServer/muduo/net/Timer.cc ../codecServer/muduo/net/TimerQueue.cc ../codecServer/muduo/net/poller/DefaultPoller.cc ../codecServer/muduo/net/poller/EPollPoller.cc ../codecServer/muduo/net/poller/PollPoller.cc ../codecServer/order/BufToOrder.cpp ../codecServer/order/order.cpp ../codecServer/server/connServer.cpp ../codecServer/server/socketServer.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../codecServer/codecServer.ui $(DISTDIR)/
 
 
@@ -1241,6 +1257,21 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_ui
 
 cycleQueue.o: ../codecServer/base/cycleQueue.cpp ../codecServer/base/cycleQueue.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o cycleQueue.o ../codecServer/base/cycleQueue.cpp
+
+AVDev.o: ../codecServer/dev/AVDev.cpp ../codecServer/dev/AVDev.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o AVDev.o ../codecServer/dev/AVDev.cpp
+
+codecDev.o: ../codecServer/dev/codecDev.cpp ../codecServer/dev/codecDev.h \
+		../codecServer/dev/AVDev.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o codecDev.o ../codecServer/dev/codecDev.cpp
+
+decodeDev.o: ../codecServer/dev/decodeDev.cpp ../codecServer/dev/decodeDev.h \
+		../codecServer/dev/AVDev.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o decodeDev.o ../codecServer/dev/decodeDev.cpp
+
+encodeDev.o: ../codecServer/dev/encodeDev.cpp ../codecServer/dev/encodeDev.h \
+		../codecServer/dev/AVDev.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o encodeDev.o ../codecServer/dev/encodeDev.cpp
 
 main.o: ../codecServer/main.cpp ../codecServer/codecServer.h \
 		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/QWidget \
@@ -5611,7 +5642,117 @@ order.o: ../codecServer/order/order.cpp ../codecServer/order/order.h \
 		../codecServer/muduo/net/EventLoop.h \
 		../codecServer/muduo/net/TimerId.h \
 		../codecServer/order/BufToOrder.h \
-		../codecServer/base/cycleQueue.h
+		../codecServer/base/cycleQueue.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/QApplication \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qapplication.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qglobal.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qconfig.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qlogging.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qflags.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qatomic.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qmutex.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qtgui-config.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qstring.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qchar.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qstringview.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qobject.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qlist.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qiterator.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qpair.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qvector.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qpoint.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qregexp.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qcoreevent.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qmetatype.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qobject_impl.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qeventloop.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qsize.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qmargins.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qcursor.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qwidget.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qrect.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qpalette.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qcolor.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qrgb.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qrgba64.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qbrush.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qmatrix.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qpolygon.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qregion.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qdatastream.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qiodevice.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qline.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qtransform.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qpainterpath.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qimage.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qpixelformat.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qpixmap.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qshareddata.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qhash.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qfont.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qfontinfo.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qkeysequence.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qevent.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qvariant.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qmap.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qdebug.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qtextstream.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qlocale.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qset.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qurl.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qurlquery.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qfile.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtCore/qfiledevice.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qvector2d.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qtouchdevice.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qguiapplication.h \
+		/home/kevin/Qt5.14.2/5.14.2/gcc_64/include/QtGui/qinputmethod.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o order.o ../codecServer/order/order.cpp
 
 connServer.o: ../codecServer/server/connServer.cpp ../codecServer/server/connServer.h \

@@ -19,6 +19,10 @@ INCLUDEPATH += ./server
 
 SOURCES += \
     base/cycleQueue.cpp \
+    dev/AVDev.cpp \
+    dev/codecDev.cpp \
+    dev/decodeDev.cpp \
+    dev/encodeDev.cpp \
     main.cpp \
     codecServer.cpp \
     muduo/base/AsyncLogging.cc \
@@ -63,6 +67,10 @@ SOURCES += \
 HEADERS += \
     base/cycleQueue.h \
     codecServer.h \
+    dev/AVDev.h \
+    dev/codecDev.h \
+    dev/decodeDev.h \
+    dev/encodeDev.h \
     muduo/base/AsyncLogging.h \
     muduo/base/Atomic.h \
     muduo/base/BlockingQueue.h \
